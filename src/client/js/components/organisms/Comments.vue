@@ -110,8 +110,9 @@ export default{
     async setCommentVotes(commentIds) {
       if (!commentIds) return
 
-      const params = {
-        contentIds: commentIds.join(',')
+      let params = {}
+      if (commentIds.length > 0) {
+        params.contentIds = commentIds.join(',')
       }
       this.votes = await Vote.get(this.serviceId, null, params)
     },
