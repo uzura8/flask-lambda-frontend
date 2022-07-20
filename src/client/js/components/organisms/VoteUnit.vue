@@ -29,12 +29,12 @@ export default{
 
     voteTypes: {
       type: Array,
-      default: [],
+      default: () => ([]),
     },
 
     postedVotes: {
       type: Array,
-      default: [],
+      default: () => ([]),
     },
   },
 
