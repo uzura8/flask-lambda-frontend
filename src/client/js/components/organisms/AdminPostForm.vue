@@ -77,9 +77,9 @@
         forced_root_block : false,
         menubar: true,
         plugins: [
-          'advlist','advcode','advtable','autolink','export','emoticons','hr',
-          'lists','link','image','preview','anchor','visualblocks',
-          'powerpaste','fullscreen','formatpainter','insertdatetime','table','help','wordcount'
+          'emoticons','hr',
+          'lists','link','preview','anchor','visualblocks',
+          'table','help'
         ],
         toolbar:
           'undo redo pastetext | casechange blocks | bold italic backcolor forecolor | \
