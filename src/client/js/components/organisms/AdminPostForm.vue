@@ -88,13 +88,12 @@
       }"
     ></editor>
 
-    <!--
-    <vue-simplemde
+    <vue-easymde
       v-else-if="editorMode === 'markdown'"
       v-model="body"
       ref="markdownEditor"
-    ></vue-simplemde>
-    -->
+      :highlight="true"
+    ></vue-easymde>
 
     <b-input
       v-else-if="editorMode === 'text'"
@@ -221,14 +220,17 @@ import moment from 'moment'
 import str from '@/util/str'
 import { Admin, Category, Tag } from '@/api'
 import Editor from '@tinymce/tinymce-vue'
-//import VueSimplemde from 'vue-simplemde'
+import hljs from 'highlight.js'
+import VueEasymde from 'vue-easymde'
 import config from '@/config/config'
+
+window.hljs = hljs
 
 export default{
   name: 'AdminPostForm',
 
   components: {
-    //VueSimplemde,
+    VueEasymde,
     'editor': Editor,
   },
 
@@ -576,7 +578,9 @@ export default{
 }
 </script>
 <style>
-//@import '~simplemde/dist/simplemde.min.css';
+@import "~easymde/dist/easymde.min.css";
+@import "~highlight.js/styles/atom-one-dark.css";
+
 .editor-preview {
   &.editor-preview-active {
     @import "../scss/browser-default.scss";
