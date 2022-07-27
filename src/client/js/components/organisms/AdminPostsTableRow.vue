@@ -24,7 +24,7 @@
   </tr>
 </template>
 <script>
-import InlineTime from '@/components/molecules/atoms/InlineTime'
+import InlineTime from '@/components/atoms/InlineTime'
 
 export default{
   name: 'AdminPostsTableRow',

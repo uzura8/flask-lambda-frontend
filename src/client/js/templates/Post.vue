@@ -82,7 +82,7 @@
 <script>
 import config from '@/config/config'
 import { Post, Vote } from '@/api'
-import PostBody from '@/components/molecules/atoms/PostBody'
+import PostBody from '@/components/atoms/PostBody'
 import Comments from '@/components/organisms/Comments'
 import VoteUnit from '@/components/organisms/VoteUnit'
 

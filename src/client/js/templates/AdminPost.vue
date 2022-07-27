@@ -116,8 +116,8 @@
 <script>
 import moment from '@/moment'
 import { Admin } from '@/api'
-import PostBody from '@/components/molecules/atoms/PostBody'
-import InlineTime from '@/components/molecules/atoms/InlineTime'
+import PostBody from '@/components/atoms/PostBody'
+import InlineTime from '@/components/atoms/InlineTime'
 import EbDropdown from '@/components/molecules/EbDropdown'
 
 export default{
