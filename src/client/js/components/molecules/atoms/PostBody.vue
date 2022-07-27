@@ -6,6 +6,8 @@
   </div>
 </template>
 <script>
+import hljs from 'highlight.js'
+window.hljs = hljs
 
 export default{
   name: 'PostBody',
@@ -32,7 +34,8 @@ export default{
   computed: {
   },
 
-  created() {
+  mounted() {
+    window.hljs.highlightAll()
   },
 
   methods: {
@@ -40,6 +43,8 @@ export default{
 }
 </script>
 <style>
+@import "~highlight.js/styles/atom-one-dark.css";
+
 .post-body {
   @import "../scss/browser-default.scss";
 }

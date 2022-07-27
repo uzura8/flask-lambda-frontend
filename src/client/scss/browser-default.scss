@@ -52,3 +52,15 @@ dd {
   display:block;
   margin-left: 40px; /* Webkit, Firefoxは、margin-start: 40px; */
 }
+p {
+    margin-top: 0
+}
+pre {
+    //background: #eee;
+    margin-bottom: 10px;
+}
+table td,
+table th {
+    border: 1px solid #ddd;
+    padding: 5px;
+}

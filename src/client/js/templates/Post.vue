@@ -10,6 +10,7 @@
   <h1 class="title">{{ post.title }}</h1>
 
   <post-body
+    v-if="post.bodyHtml"
     :body="post.bodyHtml"
   ></post-body>
 
