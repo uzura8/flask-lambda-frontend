@@ -67,12 +67,10 @@
     :message="checkEmpty(errors.body) ? '' : errors.body[0]"
   >
 
-    <editor
-      v-if="tinyMCEApiKey && editorMode === 'richText'"
+    <rich-text-editor
+      v-if="isEnabledRichText && editorMode === 'richText'"
       v-model="body"
-      :api-key="tinyMCEApiKey"
-      :init="editorOptions"
-    ></editor>
+    ></rich-text-editor>
 
     <vue-easymde
       v-else-if="editorMode === 'markdown'"
@@ -205,10 +203,10 @@
 import moment from 'moment'
 import str from '@/util/str'
 import { Admin, Category, Tag } from '@/api'
-import Editor from '@tinymce/tinymce-vue'
 import hljs from 'highlight.js'
 import VueEasymde from 'vue-easymde'
 import config from '@/config/config'
+import RichTextEditor from '@/components/atoms/RichTextEditor'
 
 window.hljs = hljs
 
@@ -217,7 +215,7 @@ export default{
 
   components: {
     VueEasymde,
-    'editor': Editor,
+    RichTextEditor,
   },
 
   props: {
@@ -254,21 +252,6 @@ export default{
           format: 'text',
         },
       ],
-      editorOptions: {
-        height: 500,
-        language: 'ja',
-        forced_root_block : false,
-        menubar: true,
-        plugins: [
-          'emoticons','hr',
-          'lists','link','preview','anchor','visualblocks',
-          'table','help', 'fullscreen'
-        ],
-        toolbar:
-          'undo redo | bold italic backcolor forecolor removeformat | \
-          alignleft aligncenter alignright alignjustify | \
-          bullist numlist outdent indent | hr table link emoticons | visualblocks fullscreen preview help'
-      },
     }
   },
 
@@ -304,12 +287,8 @@ export default{
       return hasError
     },
 
-    tinyMCEApiKey() {
-      return config.tinyMCEApiKey
-    },
-
     isEnabledRichText() {
-      return Boolean(this.tinyMCEApiKey)
+      return Boolean(config.tinyMCEApiKey)
     },
 
     bodyFormat() {
@@ -581,15 +560,4 @@ export default{
 <style>
 @import "~easymde/dist/easymde.min.css";
 @import "~highlight.js/styles/atom-one-dark.css";
-
-.editor-preview {
-  &.editor-preview-active {
-    @import "../scss/browser-default.scss";
-  }
-}
-.editor-preview-side {
-  &.editor-preview-active-side {
-    @import "../scss/browser-default.scss";
-  }
-}
 </style>
