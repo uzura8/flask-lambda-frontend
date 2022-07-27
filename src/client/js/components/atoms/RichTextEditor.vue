@@ -65,15 +65,4 @@ export default{
   },
 }
 </script>
-<style>
-.editor-preview {
-  &.editor-preview-active {
-    @import "../scss/browser-default.scss";
-  }
-}
-.editor-preview-side {
-  &.editor-preview-active-side {
-    @import "../scss/browser-default.scss";
-  }
-}
-</style>
+

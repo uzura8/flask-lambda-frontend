@@ -66,21 +66,18 @@
     :type="checkEmpty(errors.body) ? '' : 'is-danger'"
     :message="checkEmpty(errors.body) ? '' : errors.body[0]"
   >
-
     <rich-text-editor
       v-if="isEnabledRichText && editorMode === 'richText'"
       v-model="body"
     ></rich-text-editor>
 
-    <vue-easymde
+    <markdown-editor
       v-else-if="editorMode === 'markdown'"
       v-model="body"
-      ref="markdownEditor"
-      :highlight="true"
-    ></vue-easymde>
+    ></markdown-editor>
 
     <b-input
-      v-else-if="editorMode === 'text'"
+      v-else
       type="textarea"
       v-model="body"
       @blur="validate('body')"
@@ -203,19 +200,16 @@
 import moment from 'moment'
 import str from '@/util/str'
 import { Admin, Category, Tag } from '@/api'
-import hljs from 'highlight.js'
-import VueEasymde from 'vue-easymde'
 import config from '@/config/config'
 import RichTextEditor from '@/components/atoms/RichTextEditor'
-
-window.hljs = hljs
+import MarkdownEditor from '@/components/atoms/MarkdownEditor'
 
 export default{
   name: 'AdminPostForm',
 
   components: {
-    VueEasymde,
     RichTextEditor,
+    MarkdownEditor,
   },
 
   props: {
@@ -297,9 +291,9 @@ export default{
   },
 
   watch: {
-     tags(val) {
-       this.updateFilteredTags()
-       this.validate('tags')
+    tags(val) {
+      this.updateFilteredTags()
+      this.validate('tags')
     },
   },
 
@@ -557,7 +551,4 @@ export default{
   },
 }
 </script>
-<style>
-@import "~easymde/dist/easymde.min.css";
-@import "~highlight.js/styles/atom-one-dark.css";
-</style>
+
