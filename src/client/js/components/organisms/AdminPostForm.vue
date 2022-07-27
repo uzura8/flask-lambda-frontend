@@ -71,21 +71,7 @@
       v-if="tinyMCEApiKey && editorMode === 'richText'"
       v-model="body"
       :api-key="tinyMCEApiKey"
-      :init="{
-        height: 500,
-        language: 'ja',
-        forced_root_block : false,
-        menubar: true,
-        plugins: [
-          'emoticons','hr',
-          'lists','link','preview','anchor','visualblocks',
-          'table','help'
-        ],
-        toolbar:
-          'undo redo pastetext | casechange blocks | bold italic backcolor forecolor | \
-          alignleft aligncenter alignright alignjustify | \
-          bullist numlst outdent indent | removeformat | hr table link emoticons | fullscreen preview code help'
-      }"
+      :init="editorOptions"
     ></editor>
 
     <vue-easymde
@@ -268,6 +254,21 @@ export default{
           format: 'text',
         },
       ],
+      editorOptions: {
+        height: 500,
+        language: 'ja',
+        forced_root_block : false,
+        menubar: true,
+        plugins: [
+          'emoticons','hr',
+          'lists','link','preview','anchor','visualblocks',
+          'table','help', 'fullscreen'
+        ],
+        toolbar:
+          'undo redo | bold italic backcolor forecolor removeformat | \
+          alignleft aligncenter alignright alignjustify | \
+          bullist numlist outdent indent | hr table link emoticons | visualblocks fullscreen preview help'
+      },
     }
   },
 
