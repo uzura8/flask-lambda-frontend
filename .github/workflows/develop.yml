@@ -44,7 +44,7 @@ jobs:
       env: 
         S3_RESOURCE_BUCKET: ${{ secrets.S3_RESOURCE_BUCKET_DEV }}
       run: |
-          aws s3 sync ./public s3://$S3_RESOURCE_BUCKET
+          aws s3 sync ./public s3://$S3_RESOURCE_BUCKET --delete
 
     # Clear CloudFront Caches
     - name: Clear cache in CloudFront
