@@ -2,19 +2,6 @@ import config from '@/config/config'
 import str from './str'
 import common from './common'
 
-const strageUri = (path='', isAbsolue = true) => {
-  let items = [path]
-  if (isAbsolue) {
-    items.unshift(config.media.url)
-  }
-  return items.join('/')
-}
-
-const mediaUri = (type, name, size='raw', isAbsolue = true) => {
-  const path = [type, size, name].join('/')
-  return strageUri(path, isAbsolue)
-}
-
 export default {
   uri: (path) => {
     const validPath = str.ltrimChar(path, '/')
@@ -56,11 +43,10 @@ export default {
     return items.join('')
   },
 
-  strageUri: strageUri,
-  mediaUri: mediaUri,
-
-  imageUri: (name, size='raw', isAbsolue = true) => {
-    return mediaUri('image', name, size, isAbsolue)
+  assetUri: (path) => {
+    let items = [path]
+    items.unshift(config.media.url)
+    return items.join('/')
   },
 
   checkResponseHasErrorMessage: (err, isFieldsErrors = false) => {
