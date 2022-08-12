@@ -56,6 +56,8 @@
     "QRCode": "QRコード",
     "preview": "プレビュー",
     "AdminUser": "管理ユーザ",
+    "extention": "拡張子",
+    "fileType": "ファイルの種類",
     "more": "もっと見る"
   },
   "msg": {
@@ -65,6 +67,7 @@
     "DeletingFor": "{target} を削除します",
     "Error occurred": "エラーが発生しました",
     "Server error": "サーバーエラー",
+    "ErrorsExist": "エラーがあります",
     "Data is empty": "データがありません",
     "File is empty": "ファイルがありません",
     "No Data": "データがありません",
@@ -155,6 +158,10 @@
     "PostforDetail": "詳細投稿",
     "title": "タイトル",
     "body": "本文",
+    "images": "写真",
+    "files": "ファイル",
+    "SelectImages": "写真を選択",
+    "SelectFiles": "ファイルを選択",
     "ExpAboutNewTagsSeparater": "新規タグを追加する場合は「, (カンマ)」で区切って指定してください",
     "Add a comment...": "メッセージを入力してください"
   },

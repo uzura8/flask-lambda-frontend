@@ -145,5 +145,25 @@ export default {
         })
     })
   },
+
+  createS3PreSignedUrl: (serviceId, vals, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(null, token)
+      const uri = `admin/files/${serviceId}`
+      client.post(uri, vals, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
+
+  deleteFile: (serviceId, fileId, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(null, token)
+      const uri = `admin/files/${serviceId}/${fileId}`
+      client.delete(uri, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
 }
 

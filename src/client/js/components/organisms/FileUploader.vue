@@ -1,0 +1,128 @@
+<template>
+<div>
+  <ul class="columns is-multiline">
+    <li
+      v-for="(file, index) in files"
+      :key="file.fileId"
+      class="column is-half-tablet is-one-third-desktop is-one-quarter-widescreen"
+    >
+      <file-uploader-image
+        :file="file"
+        @uploaded-file="setUploadedFile"
+        @delete-file="deleteFile"
+      ></file-uploader-image>
+    </li>
+  </ul>
+
+  <b-upload
+    class="file-label"
+    v-model="files"
+    multiple
+    :accept="getUploadConfig('mimeTypes', []).join(',')"
+    @input="setFileId"
+  >
+    <span class="file-cta">
+      <b-icon class="file-icon" pack="fas" icon="upload"></b-icon>
+      <span class="file-label">{{ buttonLabel }}</span>
+    </span>
+  </b-upload>
+</div>
+</template>
+<script>
+import { ulid } from 'ulid'
+import { Admin } from '@/api'
+import config from '@/config/config'
+import util from '@/util'
+import FileUploaderImage from '@/components/organisms/FileUploaderImage'
+
+export default{
+  name: 'FileUploader',
+
+  components: {
+    FileUploaderImage,
+  },
+
+  props: {
+    fileType: {
+      type: String,
+      required: true,
+      default: 'image',
+    },
+
+    value: {
+      type: Array,
+      required: false,
+      default: () => ([]),
+    },
+  },
+
+  data(){
+    return {
+      files: [],
+      uploaderOptions: null,
+    }
+  },
+
+  computed: {
+    buttonLabel() {
+      const labelKey = this.fileType === 'image' ? 'form.SelectImages' : 'form.SelectFiles'
+      return this.$t(labelKey)
+    },
+  },
+
+  watch: {
+    files(vals, oldVals) {
+      let inputVals = []
+      vals.map((val) => {
+        if (val instanceof File) return
+        inputVals.push({ fileId:val.fileId, mimeType:val.mimeType })
+      })
+      if (inputVals) {
+        this.$emit('input', inputVals)
+      }
+    },
+  },
+
+  created() {
+    this.uploaderOptions = config.media.upload[this.fileType]
+    if (this.value) {
+      this.value.map((item) => {
+        this.files.push(item)
+      })
+    }
+  },
+
+  methods: {
+    setUploadedFile(payload) {
+      const index = this.files.findIndex((item) => {
+        return item.fileId === payload.fileId
+      })
+      if (index === -1) return
+
+      let sevedFile = {...payload}
+      sevedFile.isUploaded = true
+      this.files.splice(index, 1, sevedFile)
+    },
+
+    deleteFile(fileId) {
+      const index = this.files.findIndex(item => item.fileId === fileId)
+      this.files.splice(index, 1)
+    },
+
+    setFileId(vals) {
+      for (let i = 0, n = vals.length; i < n; i++) {
+        if (vals[i].fileId) continue
+        vals[i].fileId = ulid().toLowerCase()
+      }
+    },
+
+    getUploadConfig(key, defaultVal) {
+      if (key in this.uploaderOptions) {
+        return this.uploaderOptions[key]
+      }
+      return defaultVal
+    },
+  },
+}
+</script>
+

@@ -24,6 +24,7 @@
     "es6-promise": "^4.2.8",
     "highlight.js": "^11.6.0",
     "moment": "^2.29.1",
+    "ulid": "^2.3.0",
     "vue": "^2.6.12",
     "vue-easymde": "^2.0.0",
     "vue-i18n": "^8.24.3",

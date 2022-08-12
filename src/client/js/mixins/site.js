@@ -61,8 +61,19 @@ export default {
     inArray: util.arr.inArray,
     listenComponent: listener.listen,
     destroyedComponent: listener.destroyed,
-    imageUri: util.site.imageUri,
     checkResponseHasErrorMessage: util.site.checkResponseHasErrorMessage,
+
+    mediaUrl: function(type, fileId, ext, size='raw') {
+      let pathItems = [config.media.url, this.serviceId]
+      if (type === 'image') {
+        const fileName = `${size}.${ext}`
+        pathItems.push('images', fileId, fileName)
+      } else {
+        const fileName = `${fileId}.${ext}`
+        pathItems.push('docs', fileName)
+      }
+      return pathItems.join('/')
+    },
 
     showGlobalMessage: function(msg, type='is-danger', pos='is-bottom', duration=5000) {
       this.$buefy.toast.open({
@@ -104,14 +115,6 @@ export default {
       } else {
         this.showGlobalMessage(this.$t('msg["Server error"]'))
       }
-    },
-
-    addUrisToMediaObj: function (mediaObj) {
-      let copied = { ...mediaObj }
-      copied.uris = {
-        raw: util.site.mediaUri(mediaObj.type, mediaObj.name, 'raw')
-      }
-      return copied
     },
 
     usableTextSanitized: function (text) {

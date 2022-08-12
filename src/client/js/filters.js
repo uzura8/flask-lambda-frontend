@@ -2,9 +2,11 @@ import str from '@/util/str'
 import moment from '@/moment'
 
 export function numFormat(num) {
-  num = parseInt(num)
-  if (isNaN(num)) return 0
-  return String(num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+  return str.numFormat(num)
+}
+
+export function formatBytes(num) {
+  return str.bytesFormat(num)
 }
 
 export function substr(text, num) {

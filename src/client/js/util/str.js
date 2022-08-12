@@ -1,3 +1,9 @@
+const numFormat = function(num) {
+  num = parseInt(num)
+  if (isNaN(num)) return 0
+  return String(num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+}
+
 export default {
   substr: (text, len, truncation='') => {
     const text_array = text.split('')
@@ -32,6 +38,44 @@ export default {
 
   trimChar: function(str, anyChar) {
     return str.replace(new RegExp('^' + anyChar + '+|' + anyChar + '+$', 'g'),'')
+  },
+
+  numFormat: function(num) {
+    return numFormat(num)
+  },
+
+  bytesFormat: function(num) {
+    let formatted
+    let unit = 'B'
+    let count = 0
+
+    num = parseInt(num)
+    if (isNaN(num)) return `0 ${unit}`
+
+    if (num < 1024) {
+      formatted = numFormat(num)
+      return `${formatted} ${unit}`
+    } else if (num < 1024 ** 2) {
+      count = 1
+      unit = 'KB'
+    } else if (num < 1024 ** 3) {
+      count = 2
+      unit = 'MB'
+    } else if (num < 1024 ** 4) {
+      count = 3
+      unit = 'GB'
+    } else {
+      formatted = numFormat(num)
+      return `${formatted} ${unit}`
+    }
+
+    formatted = num
+    for (let i = 0; i < count; i++) {
+      formatted = formatted / 1024
+    }
+    formatted = Math.floor(formatted * 100) / 100
+
+    return `${formatted} ${unit}`
   },
 
   convObjToStr: function(obj, delimitter=',') {
@@ -104,5 +148,12 @@ export default {
     const strCombRegex = `^[${acceptChars}]+$`
     const regexp = new RegExp(strCombRegex)
     return regexp.test(text)
+  },
+
+  checkExtension(str, acceptedExts) {
+    const acceptedExtsStr = acceptedExts.join('|')
+    const pattern = `\.(${acceptedExtsStr})$`
+    const regexp = new RegExp(pattern, 'i')
+    return regexp.test(str)
   },
 }

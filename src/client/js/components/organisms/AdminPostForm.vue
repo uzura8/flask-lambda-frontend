@@ -85,6 +85,17 @@
   </b-field>
 
   <b-field
+    :label="$t('form.images')"
+    :type="checkEmpty(errors.images) ? '' : 'is-danger'"
+    :message="checkEmpty(errors.images) ? '' : $t('msg.ErrorsExist')"
+  >
+    <file-uploader
+      file-type="image"
+      v-model="images"
+    ></file-uploader>
+  </b-field>
+
+  <b-field
     :label="$t('common.tag')"
     :type="checkEmpty(errors.tags) ? '' : 'is-danger'"
     :message="checkEmpty(errors.tags) ? $t('form.ExpAboutNewTagsSeparater') : errors.tags[0]"
@@ -203,11 +214,13 @@ import { Admin, Category, Tag } from '@/api'
 import config from '@/config/config'
 import RichTextEditor from '@/components/atoms/RichTextEditor'
 import MarkdownEditor from '@/components/atoms/MarkdownEditor'
+import FileUploader from '@/components/organisms/FileUploader'
 
 export default{
   name: 'AdminPostForm',
 
   components: {
+    FileUploader,
     RichTextEditor,
     MarkdownEditor,
   },
@@ -224,14 +237,16 @@ export default{
       slug: '',
       category: '',
       title: '',
+      images: [],
       body: '',
       editorMode: 'richText',
       tags: [],
       publishAt: null,
       categories: [],
-      fieldKeys: ['slug', 'category', 'title', 'editorMode', 'body', 'tags', 'publishAt'],
+      fieldKeys: ['slug', 'category', 'title', 'images', 'editorMode', 'body', 'tags', 'publishAt'],
       savedTags: [],
       filteredTags: [],
+      errors: [],
       editorModes: [
         {
           mode: 'richText',
@@ -295,6 +310,10 @@ export default{
       this.updateFilteredTags()
       this.validate('tags')
     },
+
+    images(vals) {
+      this.initError('images')
+    },
   },
 
   async created() {
@@ -313,6 +332,7 @@ export default{
         ? String(this.post.category.slug)
         : ''
       this.title = this.post.title != null ? String(this.post.title) : ''
+      this.images = this.post.images != null ? this.post.images : []
       this.body = this.post.body != null ? String(this.post.body) : ''
       this.editorMode = this.getModeByFormat(this.post.bodyFormat)
       this.tags = this.checkEmpty(this.post.tags) === false ? this.post.tags : []
@@ -353,6 +373,7 @@ export default{
       if (this.editorMode !== 'richText') {
         this.body = ''
       }
+      this.images = []
       this.tags = []
       this.publishAt = null
     },
@@ -368,6 +389,7 @@ export default{
         vals.title = this.title
         vals.body = this.body
         vals.bodyFormat = this.bodyFormat
+        vals.images = this.images
 
         vals.tags = []
         this.tags.map((tag) => {
@@ -488,6 +510,11 @@ export default{
       if (this.body === null) this.body = ''
       this.body = this.body.trimEnd()
       if (this.checkEmpty(this.body)) this.errors.body.push(this.$t('msg["Input required"]'))
+    },
+
+    validateImages() {
+      this.initError('images')
+      if (this.images === null) this.images = []
     },
 
     validateEditorMode() {

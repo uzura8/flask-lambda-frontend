@@ -55,6 +55,8 @@
     "QRCode": "QR code",
     "preview": "Preview",
     "AdminUser": "Admin User",
+    "extention": "Extention",
+    "fileType": "File Type",
     "more": "More"
   },
   "msg": {
@@ -64,6 +66,7 @@
     "DeletingFor": "Deleting {target}",
     "Error occurred": "Error occurred",
     "Server error": "Server error",
+    "ErrorsExist": "Errors Exist",
     "Data is empty": "Data is empty",
     "File is empty": "File is empty",
     "No Data": "No Data",
@@ -154,6 +157,10 @@
     "PostforDetail": "Post for Detail",
     "title": "Title",
     "body": "Body",
+    "images": "Images",
+    "files": "Files",
+    "SelectImages": "Select Images",
+    "SelectFiles": "Select Files",
     "ExpAboutNewTagsSeparater": "Please input \",\" to separate on adding new tags",
     "Add a comment...": "Add a comment..."
   },
