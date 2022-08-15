@@ -135,6 +135,7 @@ export default{
     async createS3PreSignedUrl() {
       try {
         let vals = {
+          fileId: this.file.fileId,
           fileType: 'image',
           mimeType: this.file.type,
           name: this.file.name,

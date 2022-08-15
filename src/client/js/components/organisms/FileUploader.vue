@@ -16,7 +16,6 @@
 
   <b-upload
     class="file-label"
-    v-model="files"
     multiple
     :accept="getUploadConfig('mimeTypes', []).join(',')"
     @input="setFileId"
@@ -110,9 +109,15 @@ export default{
     },
 
     setFileId(vals) {
+      let index
       for (let i = 0, n = vals.length; i < n; i++) {
-        if (vals[i].fileId) continue
-        vals[i].fileId = ulid().toLowerCase()
+        if (! vals[i].fileId) {
+          vals[i].fileId = ulid().toLowerCase()
+        }
+        index = this.files.findIndex(file => file.fileId === vals[i].fileId)
+        if (index === -1) {
+          this.files.push(vals[i])
+        }
       }
     },
 
