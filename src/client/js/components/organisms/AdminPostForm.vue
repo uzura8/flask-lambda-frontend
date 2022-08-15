@@ -509,7 +509,7 @@ export default{
       this.initError('body')
       if (this.body === null) this.body = ''
       this.body = this.body.trimEnd()
-      if (this.checkEmpty(this.body)) this.errors.body.push(this.$t('msg["Input required"]'))
+      //if (this.checkEmpty(this.body)) this.errors.body.push(this.$t('msg["Input required"]'))
     },
 
     validateImages() {
