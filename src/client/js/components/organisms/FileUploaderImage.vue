@@ -7,7 +7,7 @@
     />
     <span v-else>No Image</span>
   </div>
-  <div v-else-if="isSavedFile" class="image">
+  <div v-else-if="isFileObject === false" class="image">
     <fb-img
       :fileId="file.fileId"
       :mimeType="file.mimeType"
@@ -68,12 +68,6 @@ export default{
     isFileObject() {
       return this.file instanceof File
     },
-
-    isSavedFile() {
-      if (! this.file) return false
-      if (this.isFileObject) return false
-      return true
-    },
   },
 
   watch: {
@@ -99,11 +93,10 @@ export default{
 
   methods: {
     async deleteFile() {
-      if (this.isFileObject) {
+      if (this.isFileObject || this.file.isSaved) {
         this.$emit('delete-file', this.file.fileId)
         return
       }
-
       try {
         this.isUploading = true
         const res = await Admin.deleteFile(this.serviceId, this.file.fileId, this.adminUserToken)

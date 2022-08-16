@@ -70,7 +70,7 @@ export default{
   },
 
   watch: {
-    files(vals, oldVals) {
+    files(vals) {
       let inputVals = []
       vals.map((val) => {
         if (val instanceof File) return
@@ -86,7 +86,9 @@ export default{
     this.uploaderOptions = config.media.upload[this.fileType]
     if (this.value) {
       this.value.map((item) => {
-        this.files.push(item)
+        const item_copied = { ...item }
+        item_copied.isSaved = true
+        this.files.push(item_copied)
       })
     }
   },
