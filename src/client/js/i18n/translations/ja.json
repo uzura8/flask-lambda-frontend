@@ -50,6 +50,7 @@
     "tags": "タグ一覧",
     "comments": "コメント一覧",
     "image": "画像",
+    "images": "画像",
     "enabled": "有効",
     "disabled": "無効",
     "QuotedFrom": "{name} より引用",

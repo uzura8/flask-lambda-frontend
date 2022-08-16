@@ -49,6 +49,7 @@
     "tags": "Tags",
     "comments": "Comments",
     "image": "Image",
+    "images": "Images",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "QuotedFrom": "Quoted from {name}",

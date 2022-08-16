@@ -84,6 +84,50 @@
   ></post-body>
 
   <ul class="mt-5">
+    <li v-if="'images' in post && post.images">
+      <span>
+        <button
+          class="button is-ghost"
+          @click="isImagesModalActive = true"
+        >
+          <span class="icon">
+            <i class="fas fa-images"></i>
+          </span>
+          <span>{{ post.images.length }}</span>
+        </button>
+      </span>
+      <b-modal
+        v-model="isImagesModalActive"
+        :destroy-on-hide="false"
+        aria-role="dialog"
+        close-button-aria-label="Close"
+        aria-modal
+      >
+        <template #default="props">
+          <ul>
+            <li v-for="image in post.images" class="mb-5">
+              <div class="card">
+                <div class="card-image">
+                  <fb-img
+                    :fileId="image.fileId"
+                    :mimeType="image.mimeType"
+                    size="raw"
+                  />
+                </div>
+                <div
+                  v-if="image.caption"
+                  class="card-content"
+                >
+                  <div class="media">
+                    <div class="media-content">{{ image.caption }}</div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </template>
+      </b-modal>
+    </li>
     <li v-if="'category' in post && post.category">
       <label>{{ $t('common.category') }}</label>
       <span>{{ post.category.label }}</span>
@@ -119,6 +163,7 @@ import { Admin } from '@/api'
 import PostBody from '@/components/atoms/PostBody'
 import InlineTime from '@/components/atoms/InlineTime'
 import EbDropdown from '@/components/molecules/EbDropdown'
+import FbImg from '@/components/atoms/FbImg'
 
 export default{
   name: 'AdminPost',
@@ -127,11 +172,13 @@ export default{
     InlineTime,
     EbDropdown,
     PostBody,
+    FbImg,
   },
 
   data(){
     return {
       post: null,
+      isImagesModalActive: false,
     }
   },
 
