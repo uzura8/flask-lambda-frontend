@@ -7,7 +7,7 @@
     />
     <span v-else>No Image</span>
   </div>
-  <div v-else-if="isFileObject === false" class="image">
+  <div v-else class="image">
     <fb-img
       :fileId="file.fileId"
       :mimeType="file.mimeType"
@@ -24,6 +24,20 @@
     class="has-text-success"
   >Uploaded</div>
 
+  <div
+    v-if="enableCaption && isFileObject === false"
+    class="mt-3"
+  >
+    <b-field
+      :label="$t('common.caption')"
+      label-position="inside"
+    >
+      <b-input
+        v-model="caption"
+        @blur="inputCaption"
+      ></b-input>
+    </b-field>
+  </div>
   <button
     class="button is-light is-small btn-delete"
     @click="deleteFile"
@@ -53,6 +67,11 @@ export default{
     file: {
       type: null,
     },
+
+    enableCaption: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data(){
@@ -60,6 +79,7 @@ export default{
       WINDOW_URL: null,
       uploaderOptions: null,
       isUploading: false,
+      caption: '',
       error: '',
     }
   },
@@ -81,6 +101,7 @@ export default{
   },
 
   async mounted() {
+    if (this.file.caption) this.caption = this.file.caption
     if (this.isFileObject) {
       this.setThumbToLocalImage()
       await this.upload()
@@ -161,6 +182,11 @@ export default{
         this.isUploading = false
         this.error = this.$t('msg["Upload failed"]')
       }
+    },
+
+    inputCaption(event) {
+      const emitData = { fileId:this.file.fileId, caption:this.caption }
+      this.$emit('input-caption', emitData)
     },
 
     validate() {

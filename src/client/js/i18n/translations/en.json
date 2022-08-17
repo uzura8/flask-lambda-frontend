@@ -50,6 +50,7 @@
     "comments": "Comments",
     "image": "Image",
     "images": "Images",
+    "caption": "Caption",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "QuotedFrom": "Quoted from {name}",

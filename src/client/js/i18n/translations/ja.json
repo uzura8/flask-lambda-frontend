@@ -51,6 +51,7 @@
     "comments": "コメント一覧",
     "image": "画像",
     "images": "画像",
+    "caption": "キャプション",
     "enabled": "有効",
     "disabled": "無効",
     "QuotedFrom": "{name} より引用",

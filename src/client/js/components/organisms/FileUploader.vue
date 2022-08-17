@@ -8,8 +8,10 @@
     >
       <file-uploader-image
         :file="file"
+        :enable-caption="true"
         @uploaded-file="setUploadedFile"
         @delete-file="deleteFile"
+        @input-caption="inputCaption"
       ></file-uploader-image>
     </li>
   </ul>
@@ -74,7 +76,9 @@ export default{
       let inputVals = []
       vals.map((val) => {
         if (val instanceof File) return
-        inputVals.push({ fileId:val.fileId, mimeType:val.mimeType })
+        const payload = { fileId:val.fileId, mimeType:val.mimeType }
+        if (val.caption) payload.caption = val.caption
+        inputVals.push(payload)
       })
       if (inputVals) {
         this.$emit('input', inputVals)
@@ -102,6 +106,17 @@ export default{
 
       let sevedFile = {...payload}
       sevedFile.isUploaded = true
+      this.files.splice(index, 1, sevedFile)
+    },
+
+    inputCaption(payload) {
+      const index = this.files.findIndex((item) => {
+        return item.fileId === payload.fileId
+      })
+      if (index === -1) return
+
+      let sevedFile = { ...this.files[index] }
+      sevedFile.caption = payload.caption
       this.files.splice(index, 1, sevedFile)
     },
 
