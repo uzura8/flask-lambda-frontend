@@ -15,7 +15,7 @@
       "image": {
         "mimeTypes": ["image/png", "image/gif", "image/jpeg"],
         "extensions": ["png", "gif", "jpg", "jpeg"],
-        "sizeMB": 3,
+        "sizeLimitMB": 3,
         "maxcount": 5
       }
     }

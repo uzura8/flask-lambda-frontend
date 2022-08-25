@@ -225,7 +225,7 @@ export default{
 
     getUploadConfig(key, defaultVal) {
       if (key === 'size') {
-        return Number(this.uploaderOptions.sizeMB) * 1024 * 1024
+        return Number(this.uploaderOptions.sizeLimitMB) * 1024 * 1024
       }
       if (key in this.uploaderOptions) {
         return this.uploaderOptions[key]
