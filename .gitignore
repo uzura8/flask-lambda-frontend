@@ -39,6 +39,7 @@ cypress/videos
 # config
 /src/client/js/config/config.json
 /src/client/js/config/cognito-client-config.json
+/src/client/js/config/config-prd.json
 
 # public
 /public/assets/js/*
