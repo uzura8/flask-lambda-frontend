@@ -10,6 +10,9 @@ import App from '@/App'
 import Buefy from 'buefy'
 Vue.use(Buefy)
 
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+
 import mixin from '@/mixins/site'
 Vue.mixin(mixin);
 

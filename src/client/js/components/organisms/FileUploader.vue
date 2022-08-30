@@ -9,6 +9,7 @@
       <file-uploader-image
         :file="file"
         :enable-caption="true"
+        :action-button-type="imageActionButtonType"
         @uploaded-file="setUploadedFile"
         @delete-file="deleteFile"
         @input-caption="inputCaption"
@@ -55,6 +56,12 @@ export default{
       type: Array,
       required: false,
       default: () => ([]),
+    },
+
+    imageActionButtonType: {
+      type: String,
+      required: false,
+      default: 'insert',
     },
   },
 

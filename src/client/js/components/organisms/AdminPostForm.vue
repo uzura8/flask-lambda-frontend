@@ -93,6 +93,7 @@
     <file-uploader
       file-type="image"
       v-model="images"
+      :image-action-button-type="editorMode === 'markdown' ? 'copy' : 'insert'"
       @insert-image="insertImage"
     ></file-uploader>
   </b-field>
@@ -545,7 +546,10 @@ export default{
     },
 
     insertImage(imgUrl) {
-      const imgTag = `<img src="${imgUrl}">`
+      let altText = this.$t('common.image')
+      const imgTag = this.editorMode === 'markdown'
+        ? `![${altText}](${imgUrl})`
+        : `<img src="${imgUrl}">`
 
       if (this.editorMode === 'text') {
         const inputEl = this.$refs.inputBody.$el.getElementsByTagName('textarea')[0]
@@ -555,6 +559,22 @@ export default{
         this.body = `${preVal}${imgTag}${postVal}`
       } else if (this.editorMode === 'richText') {
         getTinymce().activeEditor.insertContent(imgTag)
+      } else if (this.editorMode === 'markdown') {
+        this.$copyText(imgTag)
+          .then((e) => {
+            this.$buefy.toast.open({
+              message: this.$t('msg.copied'),
+              type: 'is-success',
+              position: 'is-bottom',
+            })
+          }, (e) => {
+            console.log(e)
+            this.$buefy.toast.open({
+              message: this.$t('msg.copyFailed'),
+              type: 'is-danger',
+              position: 'is-bottom',
+            })
+          })
       } else {
         this.body += `\n${imgTag}`
       }

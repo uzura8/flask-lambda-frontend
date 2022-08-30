@@ -58,35 +58,13 @@
         @click="insertImage()"
       >
         <span class="icon">
-          <i class="fas fa-plus"></i>
+          <i v-if="actionButtonType === 'copy'" class="fas fa-copy"></i>
+          <i v-else class="fas fa-plus"></i>
         </span>
-        <span>{{ $t('common.insertOf', {name: $t('common.image')}) }}</span>
+        <span v-if="actionButtonType === 'copy'">{{ $t('common.copy') }}</span>
+        <span v-else>{{ $t('common.insertOf', {name: $t('common.image')}) }}</span>
       </button>
     </div>
-    <!--
-    <eb-dropdown
-    >
-      <span
-        slot="label"
-      >
-        <span class="icon">
-          <i class="fas fa-plus"></i>
-        </span>
-        <span>{{ $t('common.insertOf', {name: $t('common.image')}) }}</span>
-      </span>
-      <div class="dropdown-content">
-        <a
-          @click="insertImage('raw')"
-          class="dropdown-item is-clickable"
-        >{{ $t('common.originalSize') }}</a>
-        <a
-          v-for="size in sizes"
-          @click="insertImage(size)"
-          class="dropdown-item is-clickable"
-        >{{ size }}</a>
-      </div>
-    </eb-dropdown>
-    -->
   </div>
 
   <button
@@ -124,6 +102,12 @@ export default{
     enableCaption: {
       type: Boolean,
       default: false,
+    },
+
+    actionButtonType: {
+      type: String,
+      required: false,
+      default: 'insert',
     },
   },
 
