@@ -133,8 +133,8 @@ export default{
       this.files.splice(index, 1)
     },
 
-    insertImage(imgUrl) {
-      this.$emit('insert-image', imgUrl)
+    insertImage(payload) {
+      this.$emit('insert-image', payload)
     },
 
     deleteFile(fileId) {

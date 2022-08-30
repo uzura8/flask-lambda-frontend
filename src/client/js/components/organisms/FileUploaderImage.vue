@@ -234,7 +234,7 @@ export default{
     insertImage() {
       const ext = util.media.getExtensionByMimetype(this.file.mimeType)
       const imgUrl = this.mediaUrl('image', this.file.fileId, ext, this.insertSize)
-      this.$emit('insert-image', imgUrl)
+      this.$emit('insert-image', { url:imgUrl, caption:this.caption })
     },
 
     validate() {

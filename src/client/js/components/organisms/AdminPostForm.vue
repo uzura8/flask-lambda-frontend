@@ -545,11 +545,17 @@ export default{
       this.initError('publishAt')
     },
 
-    insertImage(imgUrl) {
-      let altText = this.$t('common.image')
-      const imgTag = this.editorMode === 'markdown'
-        ? `![${altText}](${imgUrl})`
-        : `<img src="${imgUrl}">`
+    insertImage(payload) {
+      const imgUrl = payload.url
+      let imgTag
+      if (this.editorMode === 'markdown') {
+        const altText = payload.caption ? payload.caption : this.$t('common.image')
+        imgTag = `![${altText}](${imgUrl})`
+      } else {
+        let attrs = ['img', `src="${imgUrl}"`]
+        if (payload.caption) attrs.push(`alt="${payload.caption}"`)
+        imgTag = '<' + attrs.join(' ') + '>'
+      }
 
       if (this.editorMode === 'text') {
         const inputEl = this.$refs.inputBody.$el.getElementsByTagName('textarea')[0]
