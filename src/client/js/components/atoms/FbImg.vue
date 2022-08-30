@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import utilMedia from '@/util/media'
 import utilSite from '@/util/site'
 
 export default {
@@ -56,16 +57,7 @@ export default {
     },
 
     extention: function() {
-      switch (this.mimeType) {
-        case 'image/png':
-          return 'png'
-        case 'image/gif':
-          return 'gif'
-        case 'image/jpeg':
-          return 'jpg';
-        default:
-          return '';
-      }
+      return utilMedia.getExtensionByMimetype(this.mimeType)
     },
   },
 

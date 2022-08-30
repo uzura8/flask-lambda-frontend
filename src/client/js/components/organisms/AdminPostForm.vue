@@ -81,17 +81,19 @@
       type="textarea"
       v-model="body"
       @blur="validate('body')"
+      ref="inputBody"
     ></b-input>
   </b-field>
 
   <b-field
-    :label="$t('form.images')"
+    :label="$t('common.images')"
     :type="checkEmpty(errors.images) ? '' : 'is-danger'"
     :message="checkEmpty(errors.images) ? '' : $t('msg.ErrorsExist')"
   >
     <file-uploader
       file-type="image"
       v-model="images"
+      @insert-image="insertImage"
     ></file-uploader>
   </b-field>
 
@@ -208,6 +210,8 @@
 </div>
 </template>
 <script>
+//import tinymce from 'tinymce'
+import { getTinymce } from '@tinymce/tinymce-vue/lib/cjs/main/ts/TinyMCE'
 import moment from 'moment'
 import str from '@/util/str'
 import { Admin, Category, Tag } from '@/api'
@@ -538,6 +542,22 @@ export default{
 
     validatePublishAt() {
       this.initError('publishAt')
+    },
+
+    insertImage(imgUrl) {
+      const imgTag = `<img src="${imgUrl}">`
+
+      if (this.editorMode === 'text') {
+        const inputEl = this.$refs.inputBody.$el.getElementsByTagName('textarea')[0]
+        const inputPos = inputEl.selectionStart
+        const preVal = this.body.substr(0, inputPos)
+        const postVal = this.body.substr(inputPos)
+        this.body = `${preVal}${imgTag}${postVal}`
+      } else if (this.editorMode === 'richText') {
+        getTinymce().activeEditor.insertContent(imgTag)
+      } else {
+        this.body += `\n${imgTag}`
+      }
     },
 
     updateFilteredTags() {

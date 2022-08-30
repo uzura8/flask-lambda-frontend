@@ -12,6 +12,7 @@
         @uploaded-file="setUploadedFile"
         @delete-file="deleteFile"
         @input-caption="inputCaption"
+        @insert-image="insertImage"
       ></file-uploader-image>
     </li>
   </ul>
@@ -118,6 +119,15 @@ export default{
       let sevedFile = { ...this.files[index] }
       sevedFile.caption = payload.caption
       this.files.splice(index, 1, sevedFile)
+    },
+
+    deleteFile(fileId) {
+      const index = this.files.findIndex(item => item.fileId === fileId)
+      this.files.splice(index, 1)
+    },
+
+    insertImage(imgUrl) {
+      this.$emit('insert-image', imgUrl)
     },
 
     deleteFile(fileId) {

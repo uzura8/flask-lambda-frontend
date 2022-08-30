@@ -38,6 +38,57 @@
       ></b-input>
     </b-field>
   </div>
+
+  <div
+    v-if="isFileObject === false"
+    class="mt-3"
+  >
+    <b-select v-model="insertSize">
+      <option
+        value="raw"
+      >{{ $t('common.originalSize') }}</option>
+      <option
+        v-for="size in sizes"
+        :value="size"
+      >{{ size }}</option>
+    </b-select>
+    <div class="mt-2">
+      <button
+        class="button"
+        @click="insertImage()"
+      >
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>{{ $t('common.insertOf', {name: $t('common.image')}) }}</span>
+      </button>
+    </div>
+    <!--
+    <eb-dropdown
+    >
+      <span
+        slot="label"
+      >
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>{{ $t('common.insertOf', {name: $t('common.image')}) }}</span>
+      </span>
+      <div class="dropdown-content">
+        <a
+          @click="insertImage('raw')"
+          class="dropdown-item is-clickable"
+        >{{ $t('common.originalSize') }}</a>
+        <a
+          v-for="size in sizes"
+          @click="insertImage(size)"
+          class="dropdown-item is-clickable"
+        >{{ size }}</a>
+      </div>
+    </eb-dropdown>
+    -->
+  </div>
+
   <button
     class="button is-light is-small btn-delete"
     @click="deleteFile"
@@ -55,12 +106,14 @@ import { Admin } from '@/api'
 import config from '@/config/config'
 import util from '@/util'
 import FbImg from '@/components/atoms/FbImg'
+import EbDropdown from '@/components/molecules/EbDropdown'
 
 export default{
   name: 'FileUploaderImage',
 
   components: {
     FbImg,
+    EbDropdown,
   },
 
   props: {
@@ -80,6 +133,7 @@ export default{
       uploaderOptions: null,
       isUploading: false,
       caption: '',
+      insertSize: 'raw',
       error: '',
     }
   },
@@ -87,6 +141,10 @@ export default{
   computed: {
     isFileObject() {
       return this.file instanceof File
+    },
+
+    sizes() {
+      return config.media.upload.image.sizes
     },
   },
 
@@ -187,6 +245,12 @@ export default{
     inputCaption(event) {
       const emitData = { fileId:this.file.fileId, caption:this.caption }
       this.$emit('input-caption', emitData)
+    },
+
+    insertImage() {
+      const ext = util.media.getExtensionByMimetype(this.file.mimeType)
+      const imgUrl = this.mediaUrl('image', this.file.fileId, ext, this.insertSize)
+      this.$emit('insert-image', imgUrl)
     },
 
     validate() {
