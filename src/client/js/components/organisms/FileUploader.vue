@@ -1,6 +1,9 @@
 <template>
 <div>
-  <ul class="columns is-multiline">
+  <ul
+    v-if="fileType === 'image'"
+    class="columns is-multiline"
+  >
     <li
       v-for="(file, index) in files"
       :key="file.fileId"
@@ -15,6 +18,27 @@
         @input-caption="inputCaption"
         @insert-image="insertImage"
       ></file-uploader-image>
+    </li>
+  </ul>
+
+  <ul
+    v-else-if="fileType === 'file'"
+    class="columns is-multiline"
+  >
+    <li
+      v-for="(file, index) in files"
+      :key="file.fileId"
+      class="column is-half-desktop is-one-third-widescreen"
+    >
+      <file-uploader-file
+        :file="file"
+        :enable-caption="true"
+        :action-button-type="fileActionButtonType"
+        @uploaded-file="setUploadedFile"
+        @delete-file="deleteFile"
+        @input-caption="inputCaption"
+        @copy-url="copyUrl"
+      ></file-uploader-file>
     </li>
   </ul>
 
@@ -37,12 +61,14 @@ import { Admin } from '@/api'
 import config from '@/config/config'
 import util from '@/util'
 import FileUploaderImage from '@/components/organisms/FileUploaderImage'
+import FileUploaderFile from '@/components/organisms/FileUploaderFile'
 
 export default{
   name: 'FileUploader',
 
   components: {
     FileUploaderImage,
+    FileUploaderFile,
   },
 
   props: {
@@ -62,6 +88,12 @@ export default{
       type: String,
       required: false,
       default: 'insert',
+    },
+
+    fileActionButtonType: {
+      type: String,
+      required: false,
+      default: 'copy',
     },
   },
 
@@ -114,6 +146,8 @@ export default{
 
       let sevedFile = {...payload}
       sevedFile.isUploaded = true
+      sevedFile.originalName = this.files[index].name
+      sevedFile.size = this.files[index].size
       this.files.splice(index, 1, sevedFile)
     },
 
@@ -137,9 +171,8 @@ export default{
       this.$emit('insert-image', payload)
     },
 
-    deleteFile(fileId) {
-      const index = this.files.findIndex(item => item.fileId === fileId)
-      this.files.splice(index, 1)
+    copyUrl(payload) {
+      this.$emit('copy-url', payload)
     },
 
     setFileId(vals) {

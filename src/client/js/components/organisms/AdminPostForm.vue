@@ -16,6 +16,7 @@
     :label="$t('common.category')"
     :type="checkEmpty(errors.category) ? '' : 'is-danger'"
     :message="checkEmpty(errors.category) ? '' : errors.category[0]"
+    class="mt-5"
   >
     <b-select
       v-model="category"
@@ -41,6 +42,7 @@
     :label="$t('form.title')"
     :type="checkEmpty(errors.title) ? '' : 'is-danger'"
     :message="checkEmpty(errors.title) ? '' : errors.title[0]"
+    class="mt-5"
   >
     <b-input
       v-model="title"
@@ -51,6 +53,7 @@
   <b-field
     :label="$t('form.body')"
     :message="checkEmpty(errors.editorModeOption) ? '' : errors.editorModeOption[0]"
+    class="mt-5"
   >
     <b-select v-model="editorMode">
       <option
@@ -89,6 +92,7 @@
     :label="$t('common.images')"
     :type="checkEmpty(errors.images) ? '' : 'is-danger'"
     :message="checkEmpty(errors.images) ? '' : $t('msg.ErrorsExist')"
+    class="mt-5"
   >
     <file-uploader
       file-type="image"
@@ -99,9 +103,23 @@
   </b-field>
 
   <b-field
+    :label="$t('form.files')"
+    :type="checkEmpty(errors.files) ? '' : 'is-danger'"
+    :message="checkEmpty(errors.files) ? '' : $t('msg.ErrorsExist')"
+    class="mt-5"
+  >
+    <file-uploader
+      file-type="file"
+      v-model="files"
+      @copy-url="copyUrl"
+    ></file-uploader>
+  </b-field>
+
+  <b-field
     :label="$t('common.tag')"
     :type="checkEmpty(errors.tags) ? '' : 'is-danger'"
     :message="checkEmpty(errors.tags) ? $t('form.ExpAboutNewTagsSeparater') : errors.tags[0]"
+    class="mt-5"
   >
     <b-taginput
       v-model="tags"
@@ -121,6 +139,7 @@
     :label="$t('common.publishAt')"
     :type="checkEmpty(errors.publishAt) ? '' : 'is-danger'"
     :message="checkEmpty(errors.publishAt) ? '' : errors.publishAt[0]"
+    class="mt-5"
   >
     <b-datetimepicker
       v-model="publishAt"
@@ -155,10 +174,10 @@
 
   <div
     v-if="globalError"
-    class="block has-text-danger"
+    class="block has-text-danger mt-5"
   >{{ globalError }}</div>
 
-  <div class="field">
+  <div class="field mt-5">
     <div
       v-if="!isPublished"
       class="control"
@@ -243,12 +262,13 @@ export default{
       category: '',
       title: '',
       images: [],
+      files: [],
       body: '',
       editorMode: 'richText',
       tags: [],
       publishAt: null,
       categories: [],
-      fieldKeys: ['slug', 'category', 'title', 'images', 'editorMode', 'body', 'tags', 'publishAt'],
+      fieldKeys: ['slug', 'category', 'title', 'images', 'files', 'editorMode', 'body', 'tags', 'publishAt'],
       savedTags: [],
       filteredTags: [],
       errors: [],
@@ -319,6 +339,10 @@ export default{
     images(vals) {
       this.initError('images')
     },
+
+    files(vals) {
+      this.initError('files')
+    },
   },
 
   async created() {
@@ -338,6 +362,7 @@ export default{
         : ''
       this.title = this.post.title != null ? String(this.post.title) : ''
       this.images = this.post.images != null ? this.post.images : []
+      this.files = this.post.files != null ? this.post.files : []
       this.body = this.post.body != null ? String(this.post.body) : ''
       this.editorMode = this.getModeByFormat(this.post.bodyFormat)
       this.tags = this.checkEmpty(this.post.tags) === false ? this.post.tags : []
@@ -379,6 +404,7 @@ export default{
         this.body = ''
       }
       this.images = []
+      this.files = []
       this.tags = []
       this.publishAt = null
     },
@@ -395,6 +421,7 @@ export default{
         vals.body = this.body
         vals.bodyFormat = this.bodyFormat
         vals.images = this.images
+        vals.files = this.files
 
         vals.tags = []
         this.tags.map((tag) => {
@@ -522,6 +549,11 @@ export default{
       if (this.images === null) this.images = []
     },
 
+    validateFiles() {
+      this.initError('files')
+      if (this.files === null) this.files = []
+    },
+
     validateEditorMode() {
       this.initError('editorMode')
       if (this.checkEmpty(this.editorMode)) {
@@ -584,6 +616,25 @@ export default{
       } else {
         this.body += `\n${imgTag}`
       }
+    },
+
+    copyUrl(payload) {
+      const fileUrl = payload.url
+      this.$copyText(fileUrl)
+        .then((e) => {
+          this.$buefy.toast.open({
+            message: this.$t('msg.copied'),
+            type: 'is-success',
+            position: 'is-bottom',
+          })
+        }, (e) => {
+          console.log(e)
+          this.$buefy.toast.open({
+            message: this.$t('msg.copyFailed'),
+            type: 'is-danger',
+            position: 'is-bottom',
+          })
+        })
     },
 
     updateFilteredTags() {

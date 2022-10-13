@@ -63,7 +63,8 @@ export default {
     destroyedComponent: listener.destroyed,
     checkResponseHasErrorMessage: util.site.checkResponseHasErrorMessage,
 
-    mediaUrl: function(type, fileId, ext, size='raw') {
+    mediaUrl: function(type, fileId, mimeType, size='raw') {
+      const ext = util.media.getExtensionByMimetype(mimeType)
       let pathItems = [config.media.url, this.serviceId]
       if (type === 'image') {
         const fileName = `${size}.${ext}`

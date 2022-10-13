@@ -84,7 +84,7 @@
   ></post-body>
 
   <ul class="mt-5">
-    <li v-if="'images' in post && post.images">
+    <li v-if="'images' in post && post.images.length > 0">
       <span>
         <button
           class="button is-ghost"
@@ -128,6 +128,20 @@
         </template>
       </b-modal>
     </li>
+
+    <li v-if="'files' in post && post.files.length > 0">
+      <label>{{ $t('common.files') }}</label>
+      <ul>
+        <li v-for="file in post.files">
+          <a
+            :href="mediaUrl('file', file.fileId, file.mimeType)"
+            target="_blank"
+            v-text="file.caption ? file.caption : file.fileId"
+          ></a>
+        </li>
+      </ul>
+    </li>
+
     <li v-if="'category' in post && post.category">
       <label>{{ $t('common.category') }}</label>
       <span>{{ post.category.label }}</span>

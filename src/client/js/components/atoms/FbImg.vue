@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import utilMedia from '@/util/media'
 import utilSite from '@/util/site'
 
 export default {
@@ -53,11 +52,7 @@ export default {
   computed: {
     imageUrl: function() {
       if (this.src) return this.src
-      return this.mediaUrl('image', this.fileId, this.extention, this.size)
-    },
-
-    extention: function() {
-      return utilMedia.getExtensionByMimetype(this.mimeType)
+      return this.mediaUrl('image', this.fileId, this.mimeType, this.size)
     },
   },
 

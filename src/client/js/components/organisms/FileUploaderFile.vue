@@ -1,18 +1,29 @@
 <template>
-<div class="upload-image-box">
-  <div v-if="isFileObject" class="image">
-    <img
-      v-if="'thumb' in file && file.thumb"
-      :src="file.thumb"
-    />
-    <span v-else>No Image</span>
-  </div>
-  <div v-else class="image">
-    <fb-img
-      :fileId="file.fileId"
-      :mimeType="file.mimeType"
-      size="raw"
-    />
+<div>
+  <div class="upload-file-box">
+    <div
+      v-if="isFileObject === true"
+      class="has-text-weight-semibold"
+    >{{ file.name }}</div>
+    <div
+      v-else
+      class="has-text-weight-semibold"
+      v-text="file.originalName ? file.originalName : file.fileId"
+    ></div>
+
+    <p
+      v-if="file.size"
+      class="is-size-6"
+    >{{ file.size | formatBytes }}</p>
+
+    <button
+      class="button is-light is-small btn-delete"
+      @click="deleteFile"
+    >
+      <span class="icon">
+        <i class="fas fa-times-circle"></i>
+      </span>
+    </button>
   </div>
 
   <div
@@ -29,7 +40,7 @@
     class="mt-3"
   >
     <b-field
-      :label="$t('common.caption')"
+      :label="$t('common.dispLabel')"
       label-position="inside"
     >
       <b-input
@@ -43,38 +54,19 @@
     v-if="isFileObject === false"
     class="mt-3"
   >
-    <b-select v-model="insertSize">
-      <option
-        value="raw"
-      >{{ $t('common.originalSize') }}</option>
-      <option
-        v-for="size in sizes"
-        :value="size"
-      >{{ size }}</option>
-    </b-select>
     <div class="mt-2">
       <button
         class="button"
-        @click="insertImage()"
+        @click="copyUrl()"
       >
         <span class="icon">
           <i v-if="actionButtonType === 'copy'" class="fas fa-copy"></i>
           <i v-else class="fas fa-plus"></i>
         </span>
-        <span v-if="actionButtonType === 'copy'">{{ $t('common.copy') }}</span>
-        <span v-else>{{ $t('common.insertOf', {name: $t('common.image')}) }}</span>
+        <span v-if="actionButtonType === 'copy'">{{ $t('common.copyFor', { target: 'URL' }) }}</span>
       </button>
     </div>
   </div>
-
-  <button
-    class="button is-light is-small btn-delete"
-    @click="deleteFile"
-  >
-    <span class="icon">
-      <i class="fas fa-times-circle"></i>
-    </span>
-  </button>
   <b-loading :is-full-page="false" v-model="isUploading"></b-loading>
 </div>
 </template>
@@ -83,14 +75,12 @@ import axios from 'axios'
 import { Admin } from '@/api'
 import config from '@/config/config'
 import util from '@/util'
-import FbImg from '@/components/atoms/FbImg'
 import EbDropdown from '@/components/molecules/EbDropdown'
 
 export default{
-  name: 'FileUploaderImage',
+  name: 'FileUploaderFile',
 
   components: {
-    FbImg,
     EbDropdown,
   },
 
@@ -107,7 +97,7 @@ export default{
     actionButtonType: {
       type: String,
       required: false,
-      default: 'insert',
+      default: 'copy',
     },
   },
 
@@ -117,7 +107,6 @@ export default{
       uploaderOptions: null,
       isUploading: false,
       caption: '',
-      insertSize: 'raw',
       error: '',
     }
   },
@@ -127,25 +116,25 @@ export default{
       return this.file instanceof File
     },
 
-    sizes() {
-      return config.media.upload.image.sizes
-    },
+    //sizes() {
+    //  return config.media.upload.image.sizes
+    //},
   },
 
   watch: {
-    file(val) {
-    }
+    //file(val) {
+    //}
   },
 
   created() {
     this.WINDOW_URL = (window.URL || window.webkitURL)
-    this.uploaderOptions = config.media.upload.image
+    this.uploaderOptions = config.media.upload.file
   },
 
   async mounted() {
     if (this.file.caption) this.caption = this.file.caption
     if (this.isFileObject) {
-      this.setThumbToLocalImage()
+      //this.setThumbToLocalImage()
       await this.upload()
     }
   },
@@ -192,7 +181,7 @@ export default{
       try {
         let vals = {
           fileId: this.file.fileId,
-          fileType: 'image',
+          fileType: 'file',
           mimeType: this.file.type,
           name: this.file.name,
           size: this.file.size,
@@ -231,9 +220,9 @@ export default{
       this.$emit('input-caption', emitData)
     },
 
-    insertImage() {
-      const imgUrl = this.mediaUrl('image', this.file.fileId, this.file.mimeType, this.insertSize)
-      this.$emit('insert-image', { url:imgUrl, caption:this.caption })
+    copyUrl() {
+      const fileUrl = this.mediaUrl('file', this.file.fileId, this.file.mimeType)
+      this.$emit('copy-url', { url:fileUrl, caption:this.caption })
     },
 
     validate() {
@@ -255,20 +244,20 @@ export default{
       }
     },
 
-    setThumbToLocalImage() {
-      if ('thumb' in this.file && this.file.thumb) return
+    //setThumbToLocalImage() {
+    //  if ('thumb' in this.file && this.file.thumb) return
 
-      // Create a blob field
-      this.file.blob = ''
-      if (this.WINDOW_URL) {
-        this.file.blob = this.WINDOW_URL.createObjectURL(this.file)
-      }
-      // Thumbnails
-      this.file.thumb = ''
-      if (this.file.blob && this.file.type.substr(0, 6) === 'image/') {
-        this.file.thumb = this.file.blob
-      }
-    },
+    //  // Create a blob field
+    //  this.file.blob = ''
+    //  if (this.WINDOW_URL) {
+    //    this.file.blob = this.WINDOW_URL.createObjectURL(this.file)
+    //  }
+    //  // Thumbnails
+    //  this.file.thumb = ''
+    //  if (this.file.blob && this.file.type.substr(0, 6) === 'image/') {
+    //    this.file.thumb = this.file.blob
+    //  }
+    //},
 
     getUploadConfig(key, defaultVal) {
       if (key === 'size') {
@@ -283,12 +272,13 @@ export default{
 }
 </script>
 <style scoped>
-.upload-image-box {
+.upload-file-box {
   position: relative;
+  padding-right: 20px;
 }
 .btn-delete {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0;
+  right: 0;
 }
 </style>
