@@ -142,6 +142,19 @@
       </ul>
     </li>
 
+    <li v-if="'links' in post && post.links.length > 0">
+      <label>{{ $t('common.links') }}</label>
+      <ul>
+        <li v-for="link in post.links">
+          <a
+            :href="link.url"
+            target="_blank"
+            v-text="link.label ? link.label : link.url"
+          ></a>
+        </li>
+      </ul>
+    </li>
+
     <li v-if="'category' in post && post.category">
       <label>{{ $t('common.category') }}</label>
       <span>{{ post.category.label }}</span>

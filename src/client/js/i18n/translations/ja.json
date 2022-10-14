@@ -33,6 +33,8 @@
     "register": "登録する",
     "delete": "削除",
     "cancel": "キャンセル",
+    "add": "追加",
+    "addFor": "{target} を追加",
     "publish": "公開する",
     "published": "公開済",
     "unpublish": "非公開にする",
@@ -67,6 +69,8 @@
     "extention": "拡張子",
     "fileType": "ファイルの種類",
     "dispLabel": "表示名",
+    "link": "リンク",
+    "links": "リンク",
     "more": "もっと見る"
   },
   "msg": {

@@ -116,6 +116,40 @@
   </b-field>
 
   <b-field
+    :label="$t('common.link')"
+    :type="checkEmpty(errors.links) ? '' : 'is-danger'"
+    :message="checkEmpty(errors.links) ? '' : $t('msg.ErrorsExist')"
+    class="mt-5"
+  >
+    <ul v-if="links.length > 0">
+      <li
+        v-for="(link, index) in links"
+        :key="index"
+      >
+        <link-inputs
+          :link="link"
+          :index="index"
+          @updated-link="updateLink"
+          @delete="deleteLink"
+          @has-error="setLinksError"
+        ></link-inputs>
+      </li>
+    </ul>
+  </b-field>
+  <b-field
+    <button
+      @click="addLink"
+      class="button"
+      :disabled="isAddLinkBtnEnabled === false"
+    >
+      <span class="icon">
+        <i class="fas fa-link"></i>
+      </span>
+      <span>{{ $t('common.addFor', { target: $t('common.link') }) }}</span>
+    </button>
+  </b-field>
+
+  <b-field
     :label="$t('common.tag')"
     :type="checkEmpty(errors.tags) ? '' : 'is-danger'"
     :message="checkEmpty(errors.tags) ? $t('form.ExpAboutNewTagsSeparater') : errors.tags[0]"
@@ -239,12 +273,14 @@ import config from '@/config/config'
 import RichTextEditor from '@/components/atoms/RichTextEditor'
 import MarkdownEditor from '@/components/atoms/MarkdownEditor'
 import FileUploader from '@/components/organisms/FileUploader'
+import LinkInputs from '@/components/molecules/LinkInputs'
 
 export default{
   name: 'AdminPostForm',
 
   components: {
     FileUploader,
+    LinkInputs,
     RichTextEditor,
     MarkdownEditor,
   },
@@ -263,12 +299,13 @@ export default{
       title: '',
       images: [],
       files: [],
+      links: [],
       body: '',
       editorMode: 'richText',
       tags: [],
       publishAt: null,
       categories: [],
-      fieldKeys: ['slug', 'category', 'title', 'images', 'files', 'editorMode', 'body', 'tags', 'publishAt'],
+      fieldKeys: ['slug', 'category', 'title', 'images', 'files', 'links', 'editorMode', 'body', 'tags', 'publishAt'],
       savedTags: [],
       filteredTags: [],
       errors: [],
@@ -303,6 +340,15 @@ export default{
       if (this.hasErrors) return true
       if (this.body.length == 0) return true
       return false
+    },
+
+    isAddLinkBtnEnabled() {
+      if (this.checkEmpty(this.errors.links) === false) return false
+      if (this.checkEmpty(this.links)) return true
+      for (let i = 0, n = this.links.length; i < n; i++) {
+        if (this.links[i].url.length === 0) return false
+      }
+      return true
     },
 
     isEmptyRequiredFields() {
@@ -343,6 +389,10 @@ export default{
     files(vals) {
       this.initError('files')
     },
+
+    links(vals) {
+      this.initError('links')
+    },
   },
 
   async created() {
@@ -363,6 +413,7 @@ export default{
       this.title = this.post.title != null ? String(this.post.title) : ''
       this.images = this.post.images != null ? this.post.images : []
       this.files = this.post.files != null ? this.post.files : []
+      this.links = this.post.links != null ? this.post.links : []
       this.body = this.post.body != null ? String(this.post.body) : ''
       this.editorMode = this.getModeByFormat(this.post.bodyFormat)
       this.tags = this.checkEmpty(this.post.tags) === false ? this.post.tags : []
@@ -405,6 +456,7 @@ export default{
       }
       this.images = []
       this.files = []
+      this.links = []
       this.tags = []
       this.publishAt = null
     },
@@ -422,6 +474,7 @@ export default{
         vals.bodyFormat = this.bodyFormat
         vals.images = this.images
         vals.files = this.files
+        vals.links = this.links
 
         vals.tags = []
         this.tags.map((tag) => {
@@ -554,6 +607,22 @@ export default{
       if (this.files === null) this.files = []
     },
 
+    validateLinks() {
+      this.initError('links')
+      if (this.links === null) this.links = []
+      if (this.links.length > 0) {
+        for (let i = 0, n = this.links.length; i < n; i++) {
+          if (this.checkEmpty(this.links[i].url)) {
+            if (this.checkEmpty(this.links[i].label)) {
+              this.links.splice(i, 1)
+            } else {
+              this.errors.links.push('hasError')
+            }
+          }
+        }
+      }
+    },
+
     validateEditorMode() {
       this.initError('editorMode')
       if (this.checkEmpty(this.editorMode)) {
@@ -635,6 +704,26 @@ export default{
             position: 'is-bottom',
           })
         })
+    },
+
+    addLink() {
+      this.links.push({ url:'', label:'' })
+    },
+
+    setLinksError(hasError) {
+      if (hasError === false) {
+        this.errors.links = []
+      } else {
+        this.errors.links.push('hasError')
+      }
+    },
+
+    updateLink(payload) {
+      this.links.splice(payload.index, 1, payload.value)
+    },
+
+    deleteLink(index) {
+      this.links.splice(index, 1)
     },
 
     updateFilteredTags() {
