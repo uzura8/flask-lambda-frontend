@@ -90,6 +90,21 @@ export default {
     })
   },
 
+  checkPostSlugNotExists: (serviceId, slug, token = null) => {
+    return new Promise((resolve, reject) => {
+      const params = {slug:slug, checkNotExists:1}
+      const options = utilUri.getReqOptions(params, token)
+      const uri = `admin/posts/${serviceId}/slug`
+      client.get(uri, options)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  },
+
   createPost: (serviceId, vals, token = null) => {
     return new Promise((resolve, reject) => {
       const options = utilUri.getReqOptions(null, token)

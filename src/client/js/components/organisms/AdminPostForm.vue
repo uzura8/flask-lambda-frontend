@@ -517,18 +517,16 @@ export default{
       }
     },
 
-    async checkSlugExists(slug) {
+    async checkSlugNotExists(slug) {
       try {
         this.$store.dispatch('setLoading', true)
-        await Admin.headPostBySlug(this.serviceId, slug, this.adminUserToken)
+        const res = await Admin.checkPostSlugNotExists(this.serviceId, slug, this.adminUserToken)
         this.$store.dispatch('setLoading', false)
-        return true
+        return res
       } catch (err) {
+        console.log(err);//!!!!!!
         this.$store.dispatch('setLoading', false)
-        if (err.response == null || err.response.status !== 404) {
-          this.handleApiError(err)
-        }
-        return false
+        this.handleApiError(err)
       }
     },
 
@@ -562,8 +560,8 @@ export default{
       } else if (str.checkSlug(this.slug) === false) {
         this.errors.slug.push(this.$t('msg.InvalidInput'))
       } else if (this.isEdit === false || this.slug !== this.post.slug) {
-        const isExists = await this.checkSlugExists(this.slug)
-        if (isExists) {
+        const isNotExists = await this.checkSlugNotExists(this.slug)
+        if (isNotExists === false) {
           this.errors.slug.push(this.$t('msg["Already in use"]'))
         }
       }
