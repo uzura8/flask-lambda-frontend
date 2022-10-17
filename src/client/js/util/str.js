@@ -120,6 +120,14 @@ export default {
     })
   },
 
+  getRandStr: function(num, chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-') {
+    let res = ''
+    for (let i = 0; i < num; i++) {
+      res += chars.charAt(Math.floor(Math.random() * chars.length))
+    }
+    return res
+  },
+
   checkEmail: function(text) {
     const regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return regexp.test(text)

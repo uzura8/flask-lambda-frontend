@@ -397,15 +397,19 @@ export default{
 
   async created() {
     if (this.isEnabledRichText === false) this.editorMode = 'text'
-    this.setPost()
+    if (this.isEdit === true) {
+      this.setPost()
+    } else {
+      if (config.post.autoSlugSet.isEnabled === true) {
+        await this.setSlug()
+      }
+    }
     this.setCategories()
     this.setTags()
   },
 
   methods: {
     setPost() {
-      if (!this.isEdit) return
-
       this.slug = this.post.slug != null ? String(this.post.slug) : ''
       this.category = ('category' in this.post && this.post.category && this.post.category.slug != null)
         ? String(this.post.category.slug)
@@ -418,6 +422,33 @@ export default{
       this.editorMode = this.getModeByFormat(this.post.bodyFormat)
       this.tags = this.checkEmpty(this.post.tags) === false ? this.post.tags : []
       this.publishAt = this.post.publishAt ? moment(this.post.publishAt).toDate() : null
+    },
+
+    async setSlug() {
+      try {
+        let slug
+        let isNotExists = false
+
+        for (let i = 0, n = 10; i < n; i++) {
+          if (isNotExists === true) break
+
+          if (config.post.autoSlugSet.format === 'randString') {
+            // TODO
+            //slug = str.getRandStr(11)
+          } else if (config.post.autoSlugSet.format === 'date') {
+            slug = this.getSlugAsDateFormat(slug)
+          }
+          isNotExists = await this.checkSlugNotExists(slug)
+        }
+        if (isNotExists === false) {
+          throw new Error('Create Slug Failed')
+        }
+        this.slug = slug
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
+      }
     },
 
     async setCategories() {
@@ -521,6 +552,19 @@ export default{
       try {
         this.$store.dispatch('setLoading', true)
         const res = await Admin.checkPostSlugNotExists(this.serviceId, slug, this.adminUserToken)
+        this.$store.dispatch('setLoading', false)
+        return res
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err)
+      }
+    },
+
+    async getNewSlug() {
+      try {
+        this.$store.dispatch('setLoading', true)
+        const res = await Admin.getPostNewSlug(this.serviceId, this.adminUserToken)
         this.$store.dispatch('setLoading', false)
         return res
       } catch (err) {
@@ -758,6 +802,22 @@ export default{
       const res = this.editorModes.find(item => item.mode === mode)
       if (res == null) return ''
       return res.format
+    },
+
+    getSlugAsDateFormat(current) {
+      const suffixes = 'abcdefghijklmnopqrstuvwxyz'.split('')
+      const today = moment().format('YYMMDD')
+      if (!current) return today
+      if (current === today) return today + suffixes[0]
+
+      let currentSuffix = current.replace(today, '')
+      const index = suffixes.indexOf(currentSuffix)
+      if (index === -1) {
+        throw new Error('Current slug is invalid')
+      } else if (index + 1 > suffixes.length - 1) {
+        throw new Error('Create Slug Failed')
+      }
+      return today + suffixes[index + 1]
     },
   },
 }

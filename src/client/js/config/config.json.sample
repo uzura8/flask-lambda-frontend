@@ -9,6 +9,12 @@
   "isEnabledComment": true,
   "adminAuthHeader": "Authorization",
   "adminAuthHeaderTokenPrefix": "Bearer",
+  "post": {
+    "autoSlugSet": {
+      "isEnabled": false,
+      "format": "date"
+    }
+  },
   "media": {
     "url": "https://cms-media.palr.link",
     "upload": {
