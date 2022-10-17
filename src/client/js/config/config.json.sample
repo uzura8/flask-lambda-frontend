@@ -18,6 +18,12 @@
         "extensions": ["png", "gif", "jpg", "jpeg"],
         "sizeLimitMB": 3,
         "maxcount": 5
+      },
+      "file": {
+        "mimeTypes": ["image/png", "image/gif", "image/jpeg", "application/pdf"],
+        "extensions": ["png", "gif", "jpg", "jpeg", "pdf"],
+        "sizeLimitMB": 3,
+        "maxcount": 5
       }
     }
   },
