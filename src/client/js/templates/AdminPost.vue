@@ -33,6 +33,18 @@
         <i class="fas fa-edit"></i>
       </span>
       <div class="dropdown-content">
+        <a
+          v-if="previewUrlPrefix"
+          :href="`${previewUrlPrefix}${post.slug}`"
+          target="_blank"
+          class="dropdown-item"
+        >
+          <span class="icon">
+            <i class="fas fa-lock"></i>
+          </span>
+          <span>{{ $t('common.preview') }}</span>
+        </a>
+
         <router-link
           :to="`/admin/posts/${serviceId}/${post.postId}/edit`"
           class="dropdown-item"
@@ -232,6 +244,13 @@ export default{
       const uri = `/admin/posts/${this.serviceId}`
       if (!this.$store.state.adminPostsPager.lastIndex) return uri
       return `${uri}?index=${this.$store.state.adminPostsPager.lastIndex}`
+    },
+
+    previewUrlPrefix() {
+      if (!this.post) return ''
+      if ('service' in this.post === false) return ''
+      if ('frontendPostDetailUrlPrefix' in this.post.service === false) return ''
+      return this.post.service.frontendPostDetailUrlPrefix
     },
   },
 
