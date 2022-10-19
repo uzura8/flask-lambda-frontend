@@ -244,21 +244,6 @@ export default{
       }
     },
 
-    //setThumbToLocalImage() {
-    //  if ('thumb' in this.file && this.file.thumb) return
-
-    //  // Create a blob field
-    //  this.file.blob = ''
-    //  if (this.WINDOW_URL) {
-    //    this.file.blob = this.WINDOW_URL.createObjectURL(this.file)
-    //  }
-    //  // Thumbnails
-    //  this.file.thumb = ''
-    //  if (this.file.blob && this.file.type.substr(0, 6) === 'image/') {
-    //    this.file.thumb = this.file.blob
-    //  }
-    //},
-
     getUploadConfig(key, defaultVal) {
       if (key === 'size') {
         return Number(this.uploaderOptions.sizeLimitMB) * 1024 * 1024

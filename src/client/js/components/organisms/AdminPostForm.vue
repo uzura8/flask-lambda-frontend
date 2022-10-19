@@ -123,12 +123,11 @@
   >
     <ul v-if="links.length > 0">
       <li
-        v-for="(link, index) in links"
-        :key="index"
+        v-for="link in links"
+        :key="link.id"
       >
         <link-inputs
           :link="link"
-          :index="index"
           @updated-link="updateLink"
           @delete="deleteLink"
           @has-error="setLinksError"
@@ -717,7 +716,6 @@ export default{
               position: 'is-bottom',
             })
           }, (e) => {
-            console.log(e)
             this.$buefy.toast.open({
               message: this.$t('msg.copyFailed'),
               type: 'is-danger',
@@ -739,7 +737,6 @@ export default{
             position: 'is-bottom',
           })
         }, (e) => {
-          console.log(e)
           this.$buefy.toast.open({
             message: this.$t('msg.copyFailed'),
             type: 'is-danger',
@@ -749,7 +746,11 @@ export default{
     },
 
     addLink() {
-      this.links.push({ url:'', label:'' })
+      let maxId = 0
+      if (this.links.length > 0) {
+        maxId = this.links.reduce((a, b) => a.id > b.id ? a : b).id
+      }
+      this.links.push({ id:maxId + 1, url:'', label:'' })
     },
 
     setLinksError(hasError) {
@@ -761,10 +762,16 @@ export default{
     },
 
     updateLink(payload) {
-      this.links.splice(payload.index, 1, payload.value)
+      const index = this.links.findIndex((item) => {
+        return item.id === payload.id
+      })
+      this.links.splice(index, 1, payload)
     },
 
-    deleteLink(index) {
+    deleteLink(id) {
+      const index = this.links.findIndex((item) => {
+        return item.id === id
+      })
       this.links.splice(index, 1)
     },
 

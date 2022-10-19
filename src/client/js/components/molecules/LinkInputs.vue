@@ -48,9 +48,6 @@ export default{
   },
 
   props: {
-    index: {
-      type: Number,
-    },
     link: {
       type: Object,
       default: null,
@@ -73,7 +70,11 @@ export default{
       if (this.checkEmpty(this.errors.url) === false) return true
       if (this.checkEmpty(this.errors.label) === false) return true
       return false
-    }
+    },
+
+    linkId() {
+      return this.link.id
+    },
   },
 
   watch: {
@@ -101,16 +102,14 @@ export default{
 
   methods: {
     deleteItem() {
-      this.$emit('delete', this.index)
+      this.$emit('delete', this.linkId)
     },
 
     emitValue() {
       this.$emit('updated-link', {
-        index: this.index,
-        value: {
-          url: this.url,
-          label: this.label,
-        },
+        id: this.linkId,
+        url: this.url,
+        label: this.label,
       })
     },
 
