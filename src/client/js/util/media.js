@@ -7,6 +7,8 @@ export default {
         return 'gif'
       case 'image/jpeg':
         return 'jpg';
+      case 'application/pdf':
+        return 'pdf';
       default:
         return '';
     }
