@@ -34,13 +34,13 @@
       </span>
       <div class="dropdown-content">
         <a
-          v-if="previewUrlPrefix"
-          :href="`${previewUrlPrefix}${post.slug}`"
+          v-if="previewUrl"
+          :href="previewUrl"
           target="_blank"
           class="dropdown-item"
         >
           <span class="icon">
-            <i class="fas fa-lock"></i>
+            <i class="fas fa-eye"></i>
           </span>
           <span>{{ $t('common.preview') }}</span>
         </a>
@@ -246,11 +246,17 @@ export default{
       return `${uri}?index=${this.$store.state.adminPostsPager.lastIndex}`
     },
 
-    previewUrlPrefix() {
+    previewUrl() {
       if (!this.post) return ''
       if ('service' in this.post === false) return ''
       if ('frontendPostDetailUrlPrefix' in this.post.service === false) return ''
-      return this.post.service.frontendPostDetailUrlPrefix
+
+      const previewUrlPrefix = this.post.service.frontendPostDetailUrlPrefix
+      const previewUrl = `${previewUrlPrefix}${this.post.slug}`
+      if (this.isPublished) return previewUrl
+
+      if (this.checkEmpty(this.post.previewToken)) return ''
+      return `${previewUrl}?token=${this.post.previewToken}`
     },
   },
 

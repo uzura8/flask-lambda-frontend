@@ -114,6 +114,10 @@ export default{
     isEnabledComment() {
       return config.isEnabledComment
     },
+
+    previewToken() {
+      return this.$route.query.token
+    },
   },
 
   watch: {
@@ -128,7 +132,8 @@ export default{
     async setPost() {
       this.$store.dispatch('setLoading', true)
       try {
-        this.post = await Post.get(this.serviceId, this.slug)
+        const params = this.previewToken ? { token:this.previewToken } : null
+        this.post = await Post.get(this.serviceId, this.slug, params)
         this.$store.dispatch('setLoading', false)
       } catch (err) {
         console.log(err);//!!!!!!
