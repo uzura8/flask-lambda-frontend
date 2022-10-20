@@ -205,6 +205,17 @@
     </b-datetimepicker>
   </b-field>
 
+  <b-field
+    :label="$t('common.dispSetting')"
+    :type="checkEmpty(errors.isHiddenInList) ? '' : 'is-danger'"
+    :message="checkEmpty(errors.isHiddenInList) ? '' : errors.isHiddenInList[0]"
+    class="mt-5"
+  >
+    <b-checkbox v-model="isHiddenInList">
+      {{ $t('form.hideInList') }}
+    </b-checkbox>
+  </b-field>
+
   <div
     v-if="globalError"
     class="block has-text-danger mt-5"
@@ -303,8 +314,9 @@ export default{
       editorMode: 'richText',
       tags: [],
       publishAt: null,
+      isHiddenInList: false,
       categories: [],
-      fieldKeys: ['slug', 'category', 'title', 'images', 'files', 'links', 'editorMode', 'body', 'tags', 'publishAt'],
+      fieldKeys: ['slug', 'category', 'title', 'images', 'files', 'links', 'editorMode', 'body', 'tags', 'publishAt', 'isHiddenInList'],
       savedTags: [],
       filteredTags: [],
       errors: [],
@@ -421,6 +433,7 @@ export default{
       this.editorMode = this.getModeByFormat(this.post.bodyFormat)
       this.tags = this.checkEmpty(this.post.tags) === false ? this.post.tags : []
       this.publishAt = this.post.publishAt ? moment(this.post.publishAt).toDate() : null
+      this.isHiddenInList = this.post.isHiddenInList
     },
 
     async setSlug() {
@@ -489,6 +502,7 @@ export default{
       this.links = []
       this.tags = []
       this.publishAt = null
+      this.isHiddenInList = false
     },
 
     async save(forcePublish = false) {
@@ -505,6 +519,7 @@ export default{
         vals.images = this.images
         vals.files = this.files
         vals.links = this.links
+        vals.isHiddenInList = this.isHiddenInList
 
         vals.tags = []
         this.tags.map((tag) => {
@@ -685,6 +700,10 @@ export default{
 
     validatePublishAt() {
       this.initError('publishAt')
+    },
+
+    validateIsHiddenInList() {
+      this.initError('isHiddenInList')
     },
 
     insertImage(payload) {

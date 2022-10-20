@@ -68,6 +68,7 @@
     "extention": "Extention",
     "fileType": "File Type",
     "dispLabel": "Label",
+    "dispSetting": "Display Setting",
     "link": "Link",
     "links": "Links",
     "more": "More"
@@ -148,6 +149,7 @@
     "cofirmToPublish": "Are you sure you want to publish?",
     "changePublishStatusCompleted": "Changed publish status",
     "cofirmToDelete": "Are you sure you want to delete?",
+    "hiddenInList": "This item is hidden in list",
     "signInGreeting": "Hi, {name} !"
   },
   "error": {
@@ -176,6 +178,7 @@
     "SelectImages": "Select Images",
     "SelectFiles": "Select Files",
     "ExpAboutNewTagsSeparater": "Please input \",\" to separate on adding new tags",
+    "hideInList": "Is hide in list",
     "Add a comment...": "Add a comment..."
   },
   "term": {

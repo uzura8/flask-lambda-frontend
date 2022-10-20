@@ -6,6 +6,10 @@
     type="is-warning"
   >{{ $t('msg.thisIsNotPublished', {name: $t('common.post')}) }}</b-message>
 
+  <b-message
+    v-if="post.isHiddenInList === true"
+  >{{ $t('msg.hiddenInList') }}</b-message>
+
   <div class="block">
     <router-link :to="postsPageUri">
       <i class="fas fa-chevron-left"></i>

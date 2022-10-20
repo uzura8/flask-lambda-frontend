@@ -69,6 +69,7 @@
     "extention": "拡張子",
     "fileType": "ファイルの種類",
     "dispLabel": "表示名",
+    "dispSetting": "表示設定",
     "link": "リンク",
     "links": "リンク",
     "more": "もっと見る"
@@ -149,6 +150,7 @@
     "cofirmToPublish": "本当に公開しますか？",
     "changePublishStatusCompleted": "公開状態を変更しました",
     "cofirmToDelete": "本当に削除しますか？",
+    "hiddenInList": "一覧には表示されません",
     "signInGreeting": "こんにちは、{name} さん！"
   },
   "error": {
@@ -177,6 +179,7 @@
     "SelectImages": "写真を選択",
     "SelectFiles": "ファイルを選択",
     "ExpAboutNewTagsSeparater": "新規タグを追加する場合は「, (カンマ)」で区切って指定してください",
+    "hideInList": "一覧に表示しない",
     "Add a comment...": "メッセージを入力してください"
   },
   "term": {
