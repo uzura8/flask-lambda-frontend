@@ -11,7 +11,6 @@
     ></b-input>
   </b-field>
 
-
   <b-field
     :label="$t('common.category')"
     :type="checkEmpty(errors.category) ? '' : 'is-danger'"
@@ -345,12 +344,6 @@ export default{
     isPublished() {
       if (this.isEdit === false) return false
       return this.post.postStatus === 'publish'
-    },
-
-    isPostBtnDisabled() {
-      if (this.hasErrors) return true
-      if (this.body.length == 0) return true
-      return false
     },
 
     isAddLinkBtnEnabled() {
