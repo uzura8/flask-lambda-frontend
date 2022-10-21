@@ -147,6 +147,66 @@ export default {
     })
   },
 
+  getPostGroups: (serviceId, identifer = '', params = {}, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(params, token)
+      const uri = identifer ? `admin/posts/${serviceId}/groups/${identifer}` : `admin/posts/${serviceId}/groups`
+      client.get(uri, options)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  },
+
+  checkPostGroupSlugNotExists: (serviceId, slug, token = null) => {
+    return new Promise((resolve, reject) => {
+      const params = {slug:slug, checkNotExists:1}
+      const options = utilUri.getReqOptions(params, token)
+      const uri = `admin/posts/${serviceId}/groups/slug`
+      client.get(uri, options)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  },
+
+  createPostGroup: (serviceId, vals, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(null, token)
+      const uri = `admin/posts/${serviceId}/groups`
+      client.post(uri, vals, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
+
+  updatePostGroup: (serviceId, identifer, vals, token = null) => {
+    return new Promise((resolve, reject) => {
+      if (utilCommon.isEmpty(vals)) throw new Error('No value')
+      const options = utilUri.getReqOptions(null, token)
+      const uri = `admin/posts/${serviceId}/groups/${identifer}`
+      client.post(uri, vals, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
+
+  deletePostGroup: (serviceId, identifer, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(null, token)
+      const uri = `admin/posts/${serviceId}/groups/${identifer}`
+      client.delete(uri, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
+
   getAccountServices: (params = {}, token = null) => {
     return new Promise((resolve, reject) => {
       const options = utilUri.getReqOptions(params, token)

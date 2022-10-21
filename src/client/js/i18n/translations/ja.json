@@ -194,6 +194,7 @@
     "richText": "リッチテキスト",
     "markdown": "Markdown",
     "text": "テキスト",
+    "postGroup": "投稿グループ",
     "acceptServices": "使用可能なサービス",
     "facebook": "Facebook",
     "twitter": "Twitter"
@@ -216,6 +217,7 @@
     "AdminUserSettings": "管理ユーザ設定",
     "AdminUserManagement": "ユーザ管理",
     "AdminPostManagement": "投稿管理",
+    "AdminPostGroupManagement": "投稿グループ管理",
     "about": "このサイトについて"
   },
   "site": {

@@ -215,6 +215,7 @@
     "AdminUserSettings": "Admin User Settings",
     "AdminUserManagement": "Admin User Management",
     "AdminPostManagement": "Posts Management",
+    "AdminPostGroupManagement": "Posts Group Management",
     "about": "About"
   },
   "site": {
