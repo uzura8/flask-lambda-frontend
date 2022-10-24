@@ -5,7 +5,34 @@
       v-for="post in posts"
       class="block"
     >
-      <div class="card">
+      <div
+        v-if="['simple', 'simpleSelect'].includes(listType)"
+        class="media mt-3"
+      >
+        <span class="media-left">
+          <button
+            class="button is-small"
+            @click="selectPost(post)"
+          >
+            <span class="icon is-small">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span>{{ $t('common.select') }}</span>
+          </button>
+        </span>
+        <div class="media-content">
+          <div>{{ post.title }}</div>
+          <div class="is-size-7">
+            <span>{{ $t('common.publishAt') }}</span>
+            <span>{{ post.publishAt | dateFormat }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        v-else-if="listType === 'normal'"
+        class="card"
+      >
         <div class="card-content">
           <div class="media">
             <div class="media-content">
@@ -45,6 +72,13 @@ import { Post } from '@/api'
 
 export default{
   props: {
+    listType: {
+      type: String,
+      default: 'normal',
+      validator (val) {
+        return ['normal', 'simple', 'simpleSelect'].includes(val)
+      },
+    },
   },
 
   data(){
@@ -123,6 +157,10 @@ export default{
         this.$store.dispatch('setLoading', false)
         this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
       }
+    },
+
+    selectPost(post) {
+      this.$emit('select', post)
     },
   },
 }

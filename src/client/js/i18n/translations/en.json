@@ -71,6 +71,10 @@
     "dispSetting": "Display Setting",
     "link": "Link",
     "links": "Links",
+    "list": "List",
+    "select": "Select",
+    "selectFor": "Select {target}",
+    "close": "Close",
     "more": "More"
   },
   "msg": {
@@ -193,6 +197,7 @@
     "richText": "Rich Text",
     "markdown": "Markdown",
     "text": "Normal Text",
+    "postGroup": "Post Group",
     "acceptServices": "Available services",
     "facebook": "Facebook",
     "twitter": "Twitter"

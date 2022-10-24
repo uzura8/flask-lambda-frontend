@@ -29,6 +29,7 @@ import AdminPostCreate from '@/templates/AdminPostCreate'
 import AdminPostEdit from '@/templates/AdminPostEdit'
 import AdminPosts from '@/templates/AdminPosts'
 import AdminPostGroups from '@/templates/AdminPostGroups'
+import AdminPostGroup from '@/templates/AdminPostGroup'
 import AdminPostGroupCreate from '@/templates/AdminPostGroupCreate'
 import AdminPostGroupEdit from '@/templates/AdminPostGroupEdit'
 
@@ -197,6 +198,15 @@ export default [
     path: '/admin/posts/:serviceId/groups/:slug/edit',
     name: 'AdminPostGroupEdit',
     component: AdminPostGroupEdit,
+    meta: {
+      requiresAuth: true,
+      requiresAcceptService: true,
+    },
+  },
+  {
+    path: '/admin/posts/:serviceId/groups/:slug',
+    name: 'AdminPostGroup',
+    component: AdminPostGroup,
     meta: {
       requiresAuth: true,
       requiresAcceptService: true,

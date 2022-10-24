@@ -144,7 +144,7 @@ export default{
         this.$store.dispatch('setLoading', false)
         this.$emit('posted', res)
         this.resetInputs()
-        this.$router.push(`/admin/posts/${this.serviceId}/groups`)
+        this.$router.push(`/admin/posts/${this.serviceId}/groups/${vals.slug}`)
       } catch (err) {
         console.log(err);//!!!!!!
         this.$store.dispatch('setLoading', false)
@@ -171,7 +171,8 @@ export default{
 
     cancel() {
       this.resetInputs()
-      this.$router.push(`/admin/posts/${this.serviceId}/groups`)
+      const backPathSuffix = this.isEdit ? this.slug : ''
+      this.$router.push(`/admin/posts/${this.serviceId}/groups/${backPathSuffix}`)
     },
 
     validateAll() {
