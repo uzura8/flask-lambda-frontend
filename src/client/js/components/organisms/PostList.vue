@@ -13,6 +13,7 @@
           <button
             class="button is-small"
             @click="selectPost(post)"
+            :disabled="selectedIds.includes(post.postId)"
           >
             <span class="icon is-small">
               <i class="fas fa-plus"></i>
@@ -78,6 +79,11 @@ export default{
       validator (val) {
         return ['normal', 'simple', 'simpleSelect'].includes(val)
       },
+    },
+
+    selectedIds: {
+      type: Array,
+      default: [],
     },
   },
 

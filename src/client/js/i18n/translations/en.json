@@ -75,6 +75,7 @@
     "select": "Select",
     "selectFor": "Select {target}",
     "close": "Close",
+    "sort": "Sort",
     "more": "More"
   },
   "msg": {
@@ -107,6 +108,7 @@
     "Unregistered": "Unregistered",
     "SelectItem": "Select {name}",
     "Already in use": "Already in use",
+    "AlreadySet": "Already set",
     "Required to auth": "Required to auth",
     "Signed out": "Signed out",
     "Sign Out failed": "Sign Out failed",

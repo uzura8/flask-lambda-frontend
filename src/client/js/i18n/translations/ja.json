@@ -76,6 +76,7 @@
     "select": "選択",
     "selectFor": "{target} を選択する",
     "close": "閉じる",
+    "sort": "並び替え",
     "more": "もっと見る"
   },
   "msg": {
@@ -108,6 +109,7 @@
     "Unregistered": "未登録です",
     "SelectItem": "{name} を選択してください",
     "Already in use": "すでに使用されています",
+    "AlreadySet": "すでに設定されています",
     "Required to auth": "ログインが必要です",
     "Signed out": "ログアウトしました",
     "Sign Out failed": "ログアウトに失敗しました",
