@@ -5,57 +5,18 @@
       v-for="post in posts"
       class="block"
     >
-      <div
+      <post-list-item-for-select
         v-if="['simple', 'simpleSelect'].includes(listType)"
-        class="media mt-3"
-      >
-        <span class="media-left">
-          <button
-            class="button is-small"
-            @click="selectPost(post)"
-            :disabled="selectedIds.includes(post.postId)"
-          >
-            <span class="icon is-small">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>{{ $t('common.select') }}</span>
-          </button>
-        </span>
-        <div class="media-content">
-          <div>{{ post.title }}</div>
-          <div class="is-size-7">
-            <span>{{ $t('common.publishAt') }}</span>
-            <span>{{ post.publishAt | dateFormat }}</span>
-          </div>
-        </div>
-      </div>
+        :post="post"
+        :select-disabled="selectedIds.includes(post.postId)"
+        @select="selectPost"
+        class="mt-3"
+      ></post-list-item-for-select>
 
-      <div
+      <post-list-item
         v-else-if="listType === 'normal'"
-        class="card"
-      >
-        <div class="card-content">
-          <div class="media">
-            <div class="media-content">
-              <h4 class="title is-4">
-                <router-link
-                  :to="`/posts/${serviceId}/${post.slug}`"
-                >{{ post.title }}</router-link>
-              </h4>
-            </div>
-          </div>
-
-          <div class="content">
-            <div v-text="post.bodyText"></div>
-            <div class="mt-5">
-              <time
-                itemprop="datepublished"
-                :datetime="post.publishAt | dateFormat('')"
-              >{{ post.publishAt | dateFormat }}</time>
-            </div>
-          </div>
-        </div>
-      </div>
+        :post="post"
+      ></post-list-item>
     </li>
   </ul>
 
@@ -70,8 +31,17 @@
 </template>
 <script>
 import { Post } from '@/api'
+import PostListItem from '@/components/organisms/PostListItem'
+import PostListItemForSelect from '@/components/organisms/PostListItemForSelect'
 
 export default{
+  name: 'PostList',
+
+  components: {
+    PostListItem,
+    PostListItemForSelect,
+  },
+
   props: {
     listType: {
       type: String,
@@ -83,7 +53,7 @@ export default{
 
     selectedIds: {
       type: Array,
-      default: [],
+      default: () => ([]),
     },
   },
 

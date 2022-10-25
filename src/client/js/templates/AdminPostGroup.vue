@@ -175,6 +175,7 @@ export default{
     },
 
     postIds() {
+      if (this.checkEmpty(this.groupItems) === true) return []
       return this.groupItems.map(item => item.postId)
     },
   },

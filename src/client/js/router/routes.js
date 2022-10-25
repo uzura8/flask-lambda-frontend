@@ -14,6 +14,7 @@ import Post from '@/templates/Post'
 import Posts from '@/templates/Posts'
 import PostCategories from '@/templates/PostCategories'
 import PostTags from '@/templates/PostTags'
+import PostGroupItems from '@/templates/PostGroupItems'
 import AdminTop from '@/templates/AdminTop'
 import AdminServices from '@/templates/AdminServices'
 import AdminServiceCreate from '@/templates/AdminServiceCreate'
@@ -85,6 +86,11 @@ export default [
     path: '/posts/:serviceId/tags/:tagLabel?',
     name: 'PostTags',
     component: PostTags,
+  },
+  {
+    path: '/posts/:serviceId/groups/:slug',
+    name: 'PostGroupItems',
+    component: PostGroupItems,
   },
   {
     path: '/posts/:serviceId/:slug',
