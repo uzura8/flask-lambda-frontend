@@ -51,7 +51,7 @@ export default {
     },
 
     serviceId() {
-      return this.$route.params.serviceId
+      return config.serviceId
     },
   },
 

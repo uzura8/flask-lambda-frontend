@@ -1,7 +1,7 @@
 <template>
 <div v-if="post">
   <div class="block">
-    <router-link :to="isAdminPath ? `/admin/posts/${serviceId}` : `/posts/${serviceId}`">
+    <router-link :to="isAdminPath ? `/admin/posts/${serviceId}` : `/posts`">
       <i class="fas fa-chevron-left"></i>
       <span>{{ $t('common.posts') }}</span>
     </router-link>
@@ -40,15 +40,15 @@
   >
     <ul>
       <li>
-        <router-link :to="`/posts/${serviceId}/`">{{ $t('common.posts') }}</router-link>
+        <router-link :to="`/posts/`">{{ $t('common.posts') }}</router-link>
       </li>
       <li
         v-for="parent in post.category.parents"
       >
-        <router-link :to="`/posts/${serviceId}/categories/${parent.slug}`">{{ parent.label }}</router-link>
+        <router-link :to="`/posts/categories/${parent.slug}`">{{ parent.label }}</router-link>
       </li>
       <li>
-        <router-link :to="`/posts/${serviceId}/categories/${post.category.slug}`">{{ post.category.label }}</router-link>
+        <router-link :to="`/posts/categories/${post.category.slug}`">{{ post.category.label }}</router-link>
       </li>
     </ul>
   </nav>
@@ -59,7 +59,7 @@
       class="is-inline-block mr-2"
     >
       <router-link
-        :to="`/posts/${serviceId}/tags/${tag.label}`"
+        :to="`/posts/tags/${tag.label}`"
         class="tag"
       >{{ tag.label }}</router-link>
     </li>

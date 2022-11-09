@@ -1,20 +1,17 @@
 <template>
   <div>
-    <h1 class="title">{{ $t('page.top') }}</h1>
-    <div>
-      <h2 class="title">サービスID一覧</h2>
-      <service-ids></service-ids>
-    </div>
+    <h1 class="title">{{ $t('common.latestPosts') }}</h1>
+    <post-list class="mt-6"></post-list>
   </div>
 </template>
 <script>
-import ServiceIds from '@/components/organisms/ServiceIds'
+import PostList from '@/components/organisms/PostList'
 
 export default{
   name: 'Top',
 
   components: {
-    ServiceIds,
+    PostList,
   },
 
   data(){

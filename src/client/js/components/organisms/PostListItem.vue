@@ -5,7 +5,7 @@
       <div class="media-content">
         <h4 class="title is-4">
           <router-link
-            :to="`/posts/${serviceId}/${post.slug}`"
+            :to="`/posts/${post.slug}`"
           >{{ post.title }}</router-link>
         </h4>
       </div>

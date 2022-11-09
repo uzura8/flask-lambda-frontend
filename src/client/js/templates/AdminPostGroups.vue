@@ -32,7 +32,7 @@
     </table>
   </div>
   <div
-    v-else
+    v-else-if="isLoading === false"
     class="mt-5"
   >
     <p>{{ $t('msg["Data is empty"]') }}</p>

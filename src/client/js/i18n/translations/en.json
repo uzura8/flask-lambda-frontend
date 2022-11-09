@@ -45,6 +45,7 @@
     "insertOf": "Insert {name}",
     "post": "post",
     "posts": "posts",
+    "latestPosts": "新着投稿",
     "postsOf": "Posts of {label}",
     "category": "Category",
     "categories": "Categories",

@@ -32,7 +32,7 @@
       >
         <router-link
           :class="{ 'is-active': currenPostGroupSlug === group.slug }"
-          :to="`/posts/${serviceId}/groups/${group.slug}`"
+          :to="`/posts/groups/${group.slug}`"
         >{{ group.label }}</router-link>
       </li>
     </ul>
@@ -73,20 +73,18 @@ export default {
     },
 
     currenPostGroupSlug() {
-      if (this.$route.path.startsWith(`/posts/${this.serviceId}/groups/`) === false) return ''
+      if (this.$route.path.startsWith(`/posts/groups/`) === false) return ''
       return this.$route.params.slug
     },
   },
 
   watch: {
-    async serviceId(val, oldVal) {
-      await this.fetchCategories()
-      await this.fetchTags()
-      await this.fetchPostGroups()
-    },
   },
 
-  created() {
+  async created() {
+    await this.fetchCategories()
+    await this.fetchTags()
+    await this.fetchPostGroups()
   },
 
   methods: {

@@ -78,27 +78,27 @@ export default [
   //  meta: { requiresAuth: true }
   //},
   {
-    path: '/posts/:serviceId/categories/:categorySlug?',
+    path: '/posts/categories/:categorySlug?',
     name: 'PostCategories',
     component: PostCategories,
   },
   {
-    path: '/posts/:serviceId/tags/:tagLabel?',
+    path: '/posts/tags/:tagLabel?',
     name: 'PostTags',
     component: PostTags,
   },
   {
-    path: '/posts/:serviceId/groups/:slug',
+    path: '/posts/groups/:slug',
     name: 'PostGroupItems',
     component: PostGroupItems,
   },
   {
-    path: '/posts/:serviceId/:slug',
+    path: '/posts/:slug',
     name: 'Post',
     component: Post,
   },
   {
-    path: '/posts/:serviceId',
+    path: '/posts',
     name: 'Posts',
     component: Posts,
   },

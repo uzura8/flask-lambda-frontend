@@ -23,7 +23,7 @@
     >
       <router-link
         :class="{ 'is-active': activeCategorySlug == item.slug }"
-        :to="`/posts/${serviceId}/categories/${item.slug}`"
+        :to="`/posts/categories/${item.slug}`"
       >{{ item.label }}</router-link>
     </li>
   </ul>
@@ -83,7 +83,7 @@ export default {
     },
 
     linkToCate(cateSlug) {
-      this.$router.push(`/posts/${this.serviceId}/categories/${cateSlug}`)
+      this.$router.push(`/posts/categories/${cateSlug}`)
     },
   }
 }

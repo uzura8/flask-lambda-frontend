@@ -2,7 +2,7 @@
 <li>
   <router-link
     :class="{ 'is-active': activeLabel == tag.label }"
-    :to="`/posts/${serviceId}/tags/${tag.label}`"
+    :to="`/posts/tags/${tag.label}`"
   >{{ tag.label }}</router-link>
 </li>
 </template>

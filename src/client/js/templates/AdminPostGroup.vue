@@ -137,7 +137,11 @@
       </div>
     </draggable>
   </div>
-  <div v-else class="mt-5">
+
+  <div
+    v-else-if="isLoading === false"
+    class="mt-5"
+  >
     <p>{{ $t('msg["Data is empty"]') }}</p>
   </div>
 </div>
@@ -182,9 +186,9 @@ export default{
 
   watch: {
     async postIds(vals, before) {
-      if (this.checkEmpty(before) === false) {
-        await this.updatePostGroup()
-      }
+      if (this.postGroup == null) return []
+      if (vals == null) return []
+      await this.updatePostGroup()
     },
   },
 
@@ -222,7 +226,7 @@ export default{
       } catch (err) {
         console.log(err);//!!!!!!
         this.$store.dispatch('setLoading', false)
-        this.handleApiError(err, this.$t(`msg["Delete failed"]`))
+        this.handleApiError(err, this.$t(`msg["Update failed"]`))
       }
     },
 
